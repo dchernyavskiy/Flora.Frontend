@@ -1,0 +1,21 @@
+<div name="pagination" class="flex justify-center space-x-1">
+
+  <button class="bg-white border px-4 py-2 hover:bg-green-900 hover:text-white transition duration-500"
+          (click)="changeCurrentPage(currentPage - 1)"
+          [disabled]="!hasPreviousPage"
+          [ngClass]="{'active-btn': !hasPreviousPage, 'btn-blue': hasPreviousPage}"
+  ><span>«</span></button>
+
+  <button *ngFor="let page of range()"
+          class="bg-white border px-4 py-2 hover:bg-green-900 hover:text-white transition duration-500"
+          (click)="changeCurrentPage(page)"
+          [disabled]="page == currentPage"
+          [ngClass]="{'active-btn': page == currentPage, 'btn-blue': page != currentPage}"
+  ><span>{{page}}</span></button>
+
+  <button class="bg-white border px-4 py-2 hover:bg-green-900 hover:text-white transition duration-500"
+          (click)="changeCurrentPage(currentPage+1)"
+          [disabled]="!hasNextPage"
+          [ngClass]="{'active-btn': !hasNextPage, 'btn-blue': hasNextPage}"
+  ><span>»</span></button>
+</div>

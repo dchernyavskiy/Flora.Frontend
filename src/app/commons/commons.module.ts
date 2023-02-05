@@ -1,19 +1,26 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {HeaderComponent} from './header/header.component';
+import {FooterComponent} from './footer/footer.component';
+import {PaginationComponent} from './pagination/pagination.component';
+import {RouterLink} from "@angular/router";
+
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    PaginationComponent
   ],
   exports: [
+    FooterComponent,
     HeaderComponent,
-    FooterComponent
+    PaginationComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLink
   ]
 })
-export class CommonsModule { }
+export class CommonsModule {
+}

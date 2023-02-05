@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {Category, CategoryService} from "../../services/category.service";
 
 @Component({
@@ -9,12 +9,14 @@ import {Category, CategoryService} from "../../services/category.service";
 export class HeaderComponent {
   categories: Category[];
   subcategories: Category[] | undefined = [];
+  currentCategory: Category | undefined;
 
   constructor(private categoryService: CategoryService) {
     this.categories = categoryService.categories;
   }
 
-  setSubCategories(subcategories: Category[] | undefined) {
-    this.subcategories = subcategories;
+  setSubCategories(category: Category) {
+    this.currentCategory = category;
+    this.subcategories = category.subcategories;
   }
 }

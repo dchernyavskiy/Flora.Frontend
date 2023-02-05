@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {PaginationComponent} from './pagination/pagination.component';
-import {RouterLink} from "@angular/router";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 
 @NgModule({
@@ -17,10 +17,11 @@ import {RouterLink} from "@angular/router";
     HeaderComponent,
     PaginationComponent
   ],
-  imports: [
-    CommonModule,
-    RouterLink
-  ]
+    imports: [
+        CommonModule,
+        RouterLink,
+        RouterLinkActive
+    ]
 })
 export class CommonsModule {
 }

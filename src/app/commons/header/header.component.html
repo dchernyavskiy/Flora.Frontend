@@ -7,7 +7,7 @@
 
     <form class="flex w-1/3 flex-row">
       <input type="text" class="w-full border border-slate-300 px-5 py-2.5" placeholder="e.g. Something"/>
-      <button class="bg-gradient-to-r from-orange-400 to-red-500 px-4 font-bold text-white">Search</button>
+      <button class="bg-gradient-orange px-4 font-bold text-white">Search</button>
     </form>
 
     <div class="flex space-x-5">
@@ -34,25 +34,29 @@
       </span>
     </div>
   </div>
-  <div class="group container relative mx-auto">
-    <nav class="block">
+  <div class="group container mx-auto">
+    <nav class="block relative">
       <ul class="flex">
         <li
           *ngFor="let category of categories"
-          (mouseenter)="setSubCategories(category.subcategories)"
-          class="w-full bg-[rgba(38,137,104,1)] py-2 text-center font-bold text-white transition duration-300 hover:bg-[#EA6E27]">
-          {{category.name}}
+          (mouseenter)="setSubCategories(category)"
+          [routerLinkActive]="['bg-[#EA6E27]']"
+          class="w-full py-2 text-center font-bold text-white transition duration-300 bg-[rgba(38,137,104,1)] hover:bg-[#EA6E27]">
+          <a [routerLink]="['/plants', category.name]"
+             [queryParams]="{categoryId:category.id}">{{category.name}}</a>
         </li>
       </ul>
-    </nav>
-    <div class="container absolute inset-x-0 hidden bg-white p-1 group-hover:block">
-      <div class="grid grid-cols-10 gap-1 px-20">
-        <div class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3"
+      <div class="container absolute inset-x-0 hidden bg-white p-1 group-hover:block z-50">
+        <div class="grid grid-cols-10 gap-1">
+          <a [routerLink]="['/plants',  category.name]"
+             [queryParams]="{categoryId: category.id}"
+             class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3 hover:shadow-2xl transition duration-500"
              *ngFor="let category of subcategories">
-          <img class="max-h-[50px] max-w-[50px]" src="https://picsum.photos/300/300"/>
-          <span class="my-auto font-semibold">{{category.name}}</span>
+            <img class="max-h-[50px] max-w-[50px]" src="https://picsum.photos/300/300"/>
+            <span class="my-auto font-semibold">{{category.name}}</span>
+          </a>
         </div>
       </div>
-    </div>
+    </nav>
   </div>
 </header>

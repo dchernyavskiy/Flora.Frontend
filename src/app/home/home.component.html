@@ -17,7 +17,7 @@
 
         <form class="flex w-full flex-row">
           <input type="text" class="w-full border border-slate-300 px-5 py-2.5" placeholder="e.g. Something"/>
-          <button class="bg-gradient-to-r from-orange-400 to-red-600 px-4 font-bold text-white">Search</button>
+          <button class="bg-gradient-orange px-4 font-bold text-white">Search</button>
         </form>
       </div>
       <div class="group banner-card bg-[rgba(38,137,104,1)]">
@@ -95,39 +95,12 @@
     <div class="container mx-auto flex flex-col space-y-4">
       <div class="flex flex-row justify-between">
         <h2 class="text-3xl font-bold">Bestsallers</h2>
-        <button class="bg-gradient-to-r from-orange-400 to-red-600 px-4 font-bold text-white">View All</button>
+        <button class="bg-gradient-orange px-4 font-bold text-white">View All</button>
       </div>
       <div class="border border-slate-200"></div>
       <div class="grid grid-cols-12 gap-6">
         <div class="col-span-3">
-          <div class="flex flex-col justify-center space-y-4 border p-[20px]">
-            <img class="h-auto w-auto place-self-center object-scale-down" src="https://picsum.photos/300/300"/>
-
-            <div class="flex flex-row justify-between">
-              <span class="flex text-sm font-medium text-green-900">
-                <i class="m-auto mr-1 flex h-3 w-3 fill-green-900 transition duration-500 group-hover:fill-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                    <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                    <path
-                      d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
-                  </svg>
-                </i>
-                Some note</span
-              >
-              <span class="rounded-full border border-rose-400 px-1 text-sm font-medium">191919</span>
-            </div>
-            <h3 class="text-base font-medium">Product name</h3>
-            <span class="text-xl font-bold">99 <small class="font-normal">uah</small></span>
-            <div class="flex flex-row justify-between">
-              <div class="flex">
-                <button class="rounded-l-lg border border-slate-200 px-5 py-1">-</button>
-                <input class="max-w-[50px] border border-r-0 border-l-0 border-slate-200 px-2 py-1 text-center"
-                       type="number"/>
-                <button class="rounded-r-lg border border-slate-200 px-5 py-1">+</button>
-              </div>
-              <button class="bg-gradient-to-r from-orange-400 to-red-600 px-5 py-1 font-bold text-white">Buy</button>
-            </div>
-          </div>
+          <app-plant-card></app-plant-card>
         </div>
       </div>
       <div class="border border-slate-200"></div>

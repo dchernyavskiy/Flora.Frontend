@@ -5,3 +5,12 @@
 .banner-card{
   @apply col-span-12 md:col-span-6 xl:col-span-3 py-20;
 }
+
+
+.bg-gradient-orange {
+  transition: .5s;
+  background: linear-gradient(45deg, var(--c1, theme('colors.orange.400')), var(--c2, theme('colors.red.500')) 51%, theme('colors.orange.400')) var(--x, 0)/ 200%;
+  &:hover {
+    --x: 100%;
+  }
+}

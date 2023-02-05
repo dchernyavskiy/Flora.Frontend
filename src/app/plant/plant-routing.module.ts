@@ -4,7 +4,6 @@ import {PlantsComponent} from "./plants/plants.component";
 
 const routes: Routes = [
   {path: '', component: PlantsComponent, pathMatch: 'full'},
-  {path: ':category/:subcategory', component: PlantsComponent},
   {path: ':category', component: PlantsComponent},
 ];
 

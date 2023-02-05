@@ -12,6 +12,9 @@ import {CommonsModule} from "../commons/commons.module";
     PlantsComponent,
     PlantCardComponent
   ],
+  exports: [
+    PlantCardComponent
+  ],
   imports: [
     CommonModule,
     PlantRoutingModule,

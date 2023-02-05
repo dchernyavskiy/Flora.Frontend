@@ -39,19 +39,22 @@
       <ul class="flex">
         <li
           *ngFor="let category of categories"
-          (mouseenter)="setSubCategories(category.subcategories)"
+          (mouseenter)="setSubCategories(category)"
           class="w-full bg-[rgba(38,137,104,1)] py-2 text-center font-bold text-white transition duration-300 hover:bg-[#EA6E27]">
-          {{category.name}}
+          <a [routerLink]="['/plants', category.name]"
+             [queryParams]="{categoryId:category.id}">{{category.name}}</a>
         </li>
       </ul>
     </nav>
-    <div class="container absolute inset-x-0 hidden bg-white p-1 group-hover:block">
+    <div class="container absolute inset-x-0 hidden bg-white p-1 group-hover:block z-50">
       <div class="grid grid-cols-10 gap-1 px-20">
-        <div class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3"
-             *ngFor="let category of subcategories">
+        <a [routerLink]="['/plants', currentCategory?.name, category.name]"
+           [queryParams]="{categoryId:currentCategory?.id, subCategoryId: category.id}"
+           class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3"
+           *ngFor="let category of subcategories">
           <img class="max-h-[50px] max-w-[50px]" src="https://picsum.photos/300/300"/>
           <span class="my-auto font-semibold">{{category.name}}</span>
-        </div>
+        </a>
       </div>
     </div>
   </div>

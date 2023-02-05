@@ -1,0 +1,88 @@
+<div class="container mx-auto my-10">
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-3 flex flex-col space-y-5">
+      <div class="flex flex-col space-y-2 border p-5">
+        <h2 class="text-2xl font-extrabold">Sort by</h2>
+        <div class="group relative border p-3">
+          <span>Most popular</span>
+          <ul
+            class="absolute right-0 left-0 top-12 z-40 mt-[1px] hidden w-full flex-col space-y-1 border group-hover:flex">
+            <li
+              class="bg-white font-medium hover:bg-gradient-to-r hover:from-orange-400 hover:to-red-500 hover:text-white">
+              <div class="p-3">Most Popular</div>
+            </li>
+            <li
+              class="bg-white font-medium hover:bg-gradient-to-r hover:from-orange-400 hover:to-red-500 hover:text-white">
+              <div class="p-3">Rate</div>
+            </li>
+            <li
+              class="bg-white font-medium hover:bg-gradient-to-r hover:from-orange-400 hover:to-red-500 hover:text-white">
+              <div class="p-3">From Cheap to Expencieve</div>
+            </li>
+            <li
+              class="bg-white font-medium hover:bg-gradient-to-r hover:from-orange-400 hover:to-red-500 hover:text-white">
+              <div class="p-3">From Expencieve to Cheap</div>
+            </li>
+            <li
+              class="bg-white font-medium hover:bg-gradient-to-r hover:from-orange-400 hover:to-red-500 hover:text-white">
+              <div class="p-3">Newest</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex flex-col space-y-2 border p-5">
+        <h2 class="text-2xl font-extrabold">Category for Filter</h2>
+        <div class="flex flex-row space-x-4 border p-3">
+          <input id="check" type="checkbox" class="w-auto accent-green-900"/>
+          <label for="check" class="font-medium">Label</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-span-9">
+      <div class="flex flex-col space-y-2">
+        <h1 class="text-center text-2xl font-extrabold">Category name</h1>
+        <div class="grid grid-cols-12 gap-1">
+          <a class="col-span-3 flex flex-row justify-start space-x-3 border p-3"
+             *ngFor="let category of subcategories"
+             [routerLink]="['./', category.name]"
+             [queryParams]="{categoryId: categoryId, subCategoryId:category.id}">
+            <img class="max-w-16 max-h-16" src="https://picsum.photos/300/300"/>
+            <span class="my-auto font-medium">{{category.name}}</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-12 gap-6">
+          <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3">
+            <div class="flex flex-col justify-center space-y-4 border p-[20px]">
+              <img class="h-auto w-auto place-self-center object-scale-down" src="https://picsum.photos/300/300"/>
+
+              <div class="flex flex-row justify-between">
+                <span class="flex text-sm font-medium text-green-900">
+                  <i class="m-auto mr-1 flex h-3 w-3 fill-green-900 transition duration-500 group-hover:fill-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                      <path
+                        d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                    </svg>
+                  </i>
+                  Some note</span>
+                <span class="rounded-full border border-rose-400 px-1 text-sm font-medium">191919</span>
+              </div>
+              <h3 class="text-base font-medium">Product name</h3>
+              <span class="text-xl font-bold">99 <small class="font-normal">uah</small></span>
+              <button class="bg-gradient-to-r from-orange-400 to-red-600 px-5 py-1 font-bold text-white">Add To Cart
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <app-pagination [hasNextPage]="hasNextPage"
+                        [hasPreviousPage]="hasPreviousPage"
+                        [totalPages]="totalPages"
+                        (currentPageChanged)="onChangeCurrentPage($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,15 +4,10 @@
   </a>
 
   <div class="flex flex-row justify-between">
-                <span class="flex text-sm font-medium text-green-900">
-                  <i class="m-auto mr-1 flex h-3 w-3 fill-green-900 transition duration-500 group-hover:fill-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                      <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-                      <path
-                        d="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
-                    </svg>
-                  </i>
-                  Some note</span>
+    <div class="flex text-sm font-medium text-green-900">
+      <fa-icon [icon]="faCheck"></fa-icon>
+      <span class="ml-1">Some note</span>
+    </div>
     <span class="rounded-full border border-rose-400 px-1 text-sm font-medium">191919</span>
   </div>
   <a [routerLink]="['./', product.id]" class="text-base font-medium">Product name</a>

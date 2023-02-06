@@ -16,7 +16,7 @@ import {PlantModule} from "./plant/plant.module";
     BrowserModule,
     AppRoutingModule,
     CommonsModule,
-    PlantModule
+    PlantModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

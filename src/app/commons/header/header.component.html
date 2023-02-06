@@ -5,15 +5,33 @@
            class="h-12 max-w-full"/>
     </a>
 
-    <form class="flex w-1/3 flex-row">
-      <input type="text"
-             name="search"
-             [(ngModel)]="search"
-             (input)="onInput($event)"
-             class="w-full border border-slate-300 px-5 py-2.5 outline-0"
-             placeholder="e.g. Something"/>
-      <button class="bg-gradient-orange px-4 font-bold text-white">Search</button>
-    </form>
+    <div class="relative flex w-1/3 flex-row group">
+      <div class="flex flex-row w-full z-30">
+        <input type="text"
+               name="search"
+               [(ngModel)]="search"
+               (input)="onInput($event)"
+               (focus)="onSearchFocus($event)"
+                (mousemove)="onMouseMove($event)"
+               class="w-full border border-slate-300 px-5 py-2.5 outline-0"
+               placeholder="e.g. Something"/>
+        <button class="bg-gradient-orange px-4 font-bold text-white">Search</button>
+      </div>
+      <div class="absolute hidden z-50 left-0 right-0 top-full border bg-white p-1 transition duration-500"
+           [ngClass]="{'block':areResultsVisible}">
+        <a class="flex flex-row justify-between p-2"
+           *ngFor="let i of [1,2,3,4,5]"
+           (click)="onPlanClicked($event)"
+           [routerLink]="['/plants', 'Abbey', '1']">
+          <span class="my-auto font-medium">Plant name</span>
+          <img class="max-h-[32px]" src="https://picsum.photos/300/300"/>
+        </a>
+      </div>
+      <div
+        class="fixed hidden  z-20 w-full h-full bg-black left-0 right-0 bottom-0 top-0 opacity-70 "
+        (click)="onSearchMouseLeave($event)"
+        [ngClass]="{'block':areResultsVisible}"></div>
+    </div>
 
     <div class="flex space-x-5">
       <div class="m-auto flex flex-row font-medium text-green-900">
@@ -28,7 +46,7 @@
     </div>
   </div>
   <div class="group container mx-auto">
-    <nav class="block relative">
+    <nav class="block relative z-10">
       <ul class="flex">
         <li
           *ngFor="let category of categories"
@@ -53,3 +71,5 @@
     </nav>
   </div>
 </header>
+
+

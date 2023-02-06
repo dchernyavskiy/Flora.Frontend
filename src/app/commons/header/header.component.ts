@@ -28,4 +28,22 @@ export class HeaderComponent {
   onInput($event: Event) {
     console.log($event)
   }
+
+  areResultsVisible: boolean = false;
+  onSearchFocus($event: FocusEvent) {
+    this.areResultsVisible = true;
+  }
+
+  onPlanClicked($event: MouseEvent) {
+    this.areResultsVisible = false;
+  }
+
+  onSearchMouseLeave($event: FocusEvent) {
+    this.areResultsVisible = false;
+  }
+
+  onMouseMove($event: MouseEvent) {
+    console.log($event)
+    $event
+  }
 }

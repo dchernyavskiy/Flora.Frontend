@@ -5,7 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.banner-card{
+.banner-card {
   @apply col-span-12 md:col-span-6 xl:col-span-3 py-20;
 }
 
@@ -13,7 +13,38 @@
 .bg-gradient-orange {
   transition: .5s;
   background: linear-gradient(45deg, var(--c1, theme('colors.orange.400')), var(--c2, theme('colors.red.500')) 51%, theme('colors.orange.400')) var(--x, 0)/ 200%;
+
   &:hover {
     --x: 100%;
   }
+}
+
+.btn-gradient-orange {
+  @apply bg-gradient-orange px-4 py-2 font-bold text-white;
+}
+
+.bg-gradient-green {
+  transition: .5s;
+  background: linear-gradient(45deg, var(--c1, theme('colors.lime.500')), var(--c2, theme('colors.green.900')) 51%, theme('colors.lime.500')) var(--x, 0)/ 200%;
+
+  &:hover {
+    --x: 100%;
+  }
+}
+
+.btn-gradient-green {
+  @apply bg-gradient-green px-4 py-2 font-bold text-white;
+}
+
+.bg-gradient-danger {
+  transition: .5s;
+  background: linear-gradient(45deg, var(--c1, rgb(255, 91, 0)), var(--c2, rgb(255, 5, 5)) 51%, rgb(255, 91, 0)) var(--x, 0)/ 200%;
+
+  &:hover {
+    --x: 100%;
+  }
+}
+
+.btn-gradient-danger {
+  @apply bg-gradient-danger px-4 py-2 font-bold text-white;
 }

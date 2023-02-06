@@ -1,0 +1,48 @@
+<div class="container mx-auto py-5">
+  <app-menu class="container mx-auto py-5">
+    <app-menu-item [icon]="faUser"
+                   [innerHtml]="'<span>Name Name</span><span class=&quot;text-sm text-gray-500&quot;>email@email.com</span>'">
+      <div class="flex flex-col space-y-5">
+        <h1 class="text-3xl font-bold">Personal Data</h1>
+        <form class="flex flex-col space-y-2">
+          <div class="grid grid-cols-12 gap-6">
+            <div class="flex col-span-4 flex-col space-y-1">
+              <label class="text-">First Name</label>
+              <input type="text" class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+            </div>
+            <div class="flex col-span-4 flex-col space-y-1">
+              <label class="text-">Last Name</label>
+              <input type="text" class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+            </div>
+            <div class="flex col-span-4 col-start-1 flex-col space-y-1">
+              <label class="text-">Phone</label>
+              <input type="text" class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+            </div>
+            <div class="flex col-span-6 flex-col space-y-1">
+              <label class="text-">Email</label>
+              <input type="text" class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+            </div>
+            <button type="button"
+                    class="btn-gradient-orange col-start-1 col-end-5">
+              Save
+            </button>
+          </div>
+        </form>
+        <div class="grid grid-cols-12 gap-6">
+          <button class="btn-gradient-green col-span-2">Change Password</button>
+          <button class="btn-gradient-green col-span-2">Sign Out</button>
+          <button class="btn-gradient-danger col-span-2 col-end-12">Delete Account</button>
+        </div>
+      </div>
+    </app-menu-item>
+    <app-menu-item [icon]="faTableList"
+                   [innerHtml]="'<span>Orders</span>'">
+      content
+    </app-menu-item>
+    <app-menu-item [icon]="faHeart"
+                   [innerHtml]="'<span>Wishlist</span>'">
+      content
+    </app-menu-item>
+  </app-menu>
+</div>
+

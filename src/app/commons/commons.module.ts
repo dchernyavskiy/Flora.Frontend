@@ -11,17 +11,22 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     HeaderComponent,
     FooterComponent,
     PaginationComponent
+    TabComponent,
+    TabItemComponent,
   ],
   exports: [
     FooterComponent,
     HeaderComponent,
     PaginationComponent
+    TabComponent,
+    TabItemComponent
   ],
     imports: [
         CommonModule,
         RouterLink,
         RouterLinkActive
     ]
+    FormsModule
 })
 export class CommonsModule {
 }

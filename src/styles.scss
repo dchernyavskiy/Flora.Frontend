@@ -38,7 +38,7 @@
 
 .bg-gradient-danger {
   transition: .5s;
-  background: linear-gradient(45deg, var(--c1, rgb(255, 91, 0)), var(--c2, rgb(255, 5, 5)) 51%, rgb(255, 91, 0)) var(--x, 0)/ 200%;
+  background: linear-gradient(45deg, var(--c1, rgb(253, 161, 68)), var(--c2, rgb(255, 5, 5)) 51%, rgb(253, 161, 68)) var(--x, 0)/ 200%;
 
   &:hover {
     --x: 100%;
@@ -48,3 +48,22 @@
 .btn-gradient-danger {
   @apply bg-gradient-danger px-4 py-2 font-bold text-white;
 }
+
+
+.scrollbar::-webkit-scrollbar {
+  @apply w-[10px] h-full;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  @apply bg-slate-300;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 rounded-full;
+
+  &:hover {
+    @apply bg-slate-500;
+  }
+}
+
+

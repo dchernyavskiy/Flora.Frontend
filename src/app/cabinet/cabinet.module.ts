@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CabinetRoutingModule } from './cabinet-routing.module';
 import { CabinetComponent } from './cabinet/cabinet.component';
 import {CommonsModule} from "../commons/commons.module";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {CommonsModule} from "../commons/commons.module";
     imports: [
         CommonModule,
         CabinetRoutingModule,
-        CommonsModule
+        CommonsModule,
+        FormsModule
     ]
 })
 export class CabinetModule { }

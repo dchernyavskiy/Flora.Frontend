@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Category, CategoryService} from "../../services/category.service";
-import {faUser, faBasketShopping} from "@fortawesome/free-solid-svg-icons";
+import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-icons";
 
 
 @Component({
@@ -11,6 +11,7 @@ import {faUser, faBasketShopping} from "@fortawesome/free-solid-svg-icons";
 export class HeaderComponent {
   faBasketShopping = faBasketShopping;
   faUser = faUser;
+  faHeart = faHeart;
   categories: Category[];
   subcategories: Category[] | undefined = [];
   currentCategory: Category | undefined;
@@ -30,6 +31,7 @@ export class HeaderComponent {
   }
 
   areResultsVisible: boolean = false;
+
   onSearchFocus($event: FocusEvent) {
     this.areResultsVisible = true;
   }
@@ -40,10 +42,5 @@ export class HeaderComponent {
 
   onSearchMouseLeave($event: FocusEvent) {
     this.areResultsVisible = false;
-  }
-
-  onMouseMove($event: MouseEvent) {
-    console.log($event)
-    $event
   }
 }

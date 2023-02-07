@@ -12,4 +12,6 @@ export class MenuItemComponent {
   @Input('icon') icon: IconDefinition;
   @Input('innerHtml') innerHtml: string = '';
   @Input('active') active: boolean = false;
+  // @ts-ignore
+  @Input('link') link: string[];
 }

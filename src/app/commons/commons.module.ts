@@ -8,8 +8,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {TabComponent} from './tab/tab.component';
 import {TabItemComponent} from './tab/tab-item/tab-item.component';
 import {FormsModule} from "@angular/forms";
-import { MenuComponent } from './menu/menu.component';
-import { MenuItemComponent } from './menu/menu-item/menu-item.component';
+import {MenuComponent} from './menu/menu.component';
+import {MenuItemComponent} from './menu/menu-item/menu-item.component';
 
 
 @NgModule({
@@ -29,7 +29,7 @@ import { MenuItemComponent } from './menu/menu-item/menu-item.component';
     TabComponent,
     TabItemComponent,
     MenuComponent,
-    MenuItemComponent
+    MenuItemComponent,
   ],
   imports: [
     CommonModule,

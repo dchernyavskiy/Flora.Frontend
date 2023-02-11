@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Category, CategoryService} from "../../services/category.service";
 import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -9,6 +10,7 @@ import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-ico
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
   faBasketShopping = faBasketShopping;
   faUser = faUser;
   faHeart = faHeart;
@@ -17,7 +19,7 @@ export class HeaderComponent {
   currentCategory: Category | undefined;
   search: string = '';
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private route: ActivatedRoute) {
     this.categories = categoryService.categories;
   }
 
@@ -34,6 +36,7 @@ export class HeaderComponent {
 
   onSearchFocus($event: FocusEvent) {
     this.areResultsVisible = true;
+    document.body.style.overflow = 'hidden';
   }
 
   onPlanClicked($event: MouseEvent) {
@@ -42,5 +45,6 @@ export class HeaderComponent {
 
   onSearchMouseLeave($event: FocusEvent) {
     this.areResultsVisible = false;
+    document.body.style.overflow = 'auto';
   }
 }

@@ -10,7 +10,7 @@ export class PaginationComponent implements OnInit {
   @Input() public hasPreviousPage: boolean = false;
   @Input() public totalPages: number = 0;
   @Output() public currentPageChanged: EventEmitter<number> = new EventEmitter<number>();
-  currentPage: number = 1;
+  @Input() public currentPage: number = 1;
 
   ngOnInit(): void {
   }

@@ -64,6 +64,7 @@
           [routerLinkActive]="['bg-[#EA6E27]']"
           class="w-full py-2 text-center font-bold text-white transition duration-300 bg-[rgba(38,137,104,1)] hover:bg-[#EA6E27]">
           <a [routerLink]="['/plants', category.name]"
+             class="block"
              [queryParams]="{categoryId:category.id}">{{category.name}}</a>
         </li>
       </ul>

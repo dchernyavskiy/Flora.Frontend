@@ -40,16 +40,16 @@
       </a>
 
       <a [routerLink]="['/cabinet', 'wishlist']"
-         class="relative m-auto flex flex-row font-medium text-green-900">
-        <fa-icon [icon]="faHeart"></fa-icon>
-        <div class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 top-0 -right-3.5 -top-2">
+         class="relative m-auto flex flex-row font-medium text-green-900 group">
+        <fa-icon [icon]="faHeart" [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+        <div class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
           <div class="m-auto text-white font-bold text-center">3</div>
         </div>
       </a>
 
-      <div class="relative m-auto flex flex-row font-medium text-green-900">
-        <fa-icon [icon]="faBasketShopping"></fa-icon>
-        <div class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 top-0 -right-3.5 -top-2">
+      <div class="relative m-auto flex flex-row font-medium text-green-900 group">
+        <fa-icon [icon]="faBasketShopping" [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+        <div class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
           <div class="m-auto text-white font-bold text-center">3</div>
         </div>
       </div>

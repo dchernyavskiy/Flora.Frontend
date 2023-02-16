@@ -4,7 +4,13 @@
       <div class="flex flex-col space-y-2 border p-5">
         <h2 class="text-2xl font-extrabold">Sort by</h2>
         <div class="group relative border p-3">
-          <span>Most popular</span>
+          <div class="flex flex-row justify-between">
+            <h1>Most popular</h1>
+            <fa-icon [title]="'Ascending'"
+                     class="text-green-900"
+                     (click)="iconGroup.isAsc = !iconGroup.isAsc"
+                     [icon]="iconGroup.isAsc ? iconGroup.ascIcon : iconGroup.descIcon"></fa-icon>
+          </div>
           <ul
             class="absolute right-0 left-0 top-12 z-40 mt-[1px] hidden w-full flex-col bg-white space-y-1 border group-hover:flex">
             <li
@@ -45,7 +51,7 @@
         <div class="grid grid-cols-12 gap-1">
           <a
             class="col-span-3 flex flex-row justify-start space-x-3 border p-3 hover:shadow-2xl transition duration-500"
-            *ngFor="let category of currentCategory?.subcategories"
+            *ngFor="let category of currentCategory?.children"
             [routerLink]="['/', category.name]"
             [queryParams]="{categoryId: category.id}">
             <img class="max-w-16 max-h-16" src="https://picsum.photos/300/300"/>
@@ -54,14 +60,15 @@
         </div>
 
         <div class="grid grid-cols-12 gap-6">
-          <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3" *ngFor="let product of products">
-            <app-plant-card></app-plant-card>
+          <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3 h-full" *ngFor="let item of items">
+            <app-plant-card [plant]="item"></app-plant-card>
           </div>
         </div>
 
-        <app-pagination [hasNextPage]="hasNextPage"
-                        [hasPreviousPage]="hasPreviousPage"
-                        [totalPages]="totalPages"
+        <app-pagination [hasNextPage]="hasNextPage!"
+                        [hasPreviousPage]="hasPreviousPage!"
+                        [totalPages]="totalPages!"
+                        [currentPage]="pageNumber!"
                         (currentPageChanged)="onChangeCurrentPage($event)"></app-pagination>
       </div>
     </div>

@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {PlantBriefDto} from "../../api/api";
 
 @Component({
   selector: 'app-plant-card',
@@ -7,6 +8,7 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons";
   styleUrls: ['./plant-card.component.scss']
 })
 export class PlantCardComponent {
+  @Input() public plant: PlantBriefDto = {};
   faCheck = faCheck;
-  product = {id: '1'};
+
 }

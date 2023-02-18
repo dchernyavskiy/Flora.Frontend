@@ -3,6 +3,7 @@ import {CategoryService} from "../../services/category.service";
 import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-icons";
 import {ActivatedRoute} from "@angular/router";
 import {CategoryBriefDto} from "../../api/api";
+import {BasketService} from "../../services/basket.service";
 
 
 @Component({
@@ -19,15 +20,22 @@ export class HeaderComponent implements OnInit {
   subcategories: CategoryBriefDto[] | undefined = [];
   currentCategory: CategoryBriefDto | undefined;
   search: string = '';
+  basketCount: number | undefined;
 
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute) {
+  constructor(private categoryService: CategoryService, private basketService: BasketService) {
 
   }
 
   ngOnInit(): void {
-    this.categoryService.getAll().subscribe(response =>{
+    this.categoryService.getAll().subscribe(response => {
       this.categories = response.items;
     })
+    this.basketService.basketCount$.subscribe(response => {
+      this.basketCount = response;
+    })
+    // this.basketService.count().subscribe(res => {
+    //   this.basketCount = res;
+    // })
   }
 
   setSubCategories(category: CategoryBriefDto) {
@@ -36,7 +44,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onInput($event: Event) {
-    console.log($event)
   }
 
   areResultsVisible: boolean = false;

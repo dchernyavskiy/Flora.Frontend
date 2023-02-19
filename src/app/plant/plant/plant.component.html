@@ -32,8 +32,8 @@
           <span class="my-auto font-medium">Quantity:</span>
           <div class="p-3 font-bold">
             <button type="button"
-                    (click)="quantity = quantity - 1"
-                    [disabled]="quantity == 1"
+                    (click)="addToBasketCommand.quantity = addToBasketCommand.quantity! - 1"
+                    [disabled]="addToBasketCommand.quantity == 1"
                     class="fill-black m-auto">
               <fa-icon [icon]="faMinus"></fa-icon>
             </button>
@@ -41,15 +41,16 @@
                    type="text"
                    disabled
                    name="quantity"
-                   [(ngModel)]="quantity"/>
+                   [(ngModel)]="addToBasketCommand.quantity"/>
             <button type="button"
-                    (click)="quantity = quantity + 1"
+                    (click)="addToBasketCommand.quantity = addToBasketCommand.quantity! + 1"
                     class="fill-black m-auto">
               <fa-icon [icon]="faPlus"></fa-icon>
             </button>
           </div>
         </div>
-        <button class="btn-gradient-orange w-fit">
+        <button (click)="addToBasket()"
+                class="btn-gradient-orange w-fit">
           Add to cart
         </button>
       </form>
@@ -89,6 +90,19 @@
                       [ngTemplateOutletContext]="{$implicit: review, level:0, rateVisibility:true}"
         >
         </ng-container>
+        <ng-container *ngIf="!plant.reviews || plant.reviews.length == 0">
+          <div class="flex flex-col justify-center space-y-4">
+            <h2 class="text-center text-2xl ">
+              There is no reviews. You can be the first to leave one!
+            </h2>
+            <div class="self-center">
+              <button (click)="reply()"
+                class="border bg-white px-4 py-2 text-green-900 transition duration-500 hover:border-green-900">
+                Leave comment
+              </button>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </app-tab-item>
   </app-tab>
@@ -96,17 +110,18 @@
 
 
 <ng-template #rec let-review let-level="level" let-rateVisibility="rateVisibility">
-  <div class="flex flex-row space-x-5 lv-{{level}}">
+  <div #review class="flex flex-row space-x-5 lv-{{level}}">
     <img src="https://picsum.photos/300/300" class="max-w-16 max-h-16 rounded-full"/>
     <div class="flex flex-col justify-start space-y-3">
       <div class="flex flex-row space-x-2">
-        <h5 class="text-xl font-medium">{{review.userFirstName}} {{review.userLastName}}</h5>
+        <h5 class="text-xl font-medium">{{review.fullName}}</h5>
         <span class="my-auto font-normal text-gray-500">{{review.postDate | date}}</span>
       </div>
-      <span *ngIf="rateVisibility">Rating</span>
-      <p>{{review.message}}</p>
+      <app-rating *ngIf="rateVisibility" [rate]="review.rate"></app-rating>
+      <p>{{review.comment}}</p>
       <div>
-        <button class="border bg-white px-4 py-2 text-green-900 transition duration-500 hover:border-green-900">
+        <button (click)="reply(review.id)"
+                class="border bg-white px-4 py-2 text-green-900 transition duration-500 hover:border-green-900">
           Reply
         </button>
       </div>
@@ -119,3 +134,54 @@
     </ng-container>
   </ng-container>
 </ng-template>
+
+<app-modal-window [title]="'Write Your Comment'"
+                  [hidden$]="modalHidden$">
+  <div class="flex flex-row justify-center space-x-10">
+    <ng-container *ngIf="isStarHidden">
+      <ng-container *ngFor="let star of stars | async">
+        <fa-icon [icon]="faStar"
+                 size="2x"
+                 (click)="rate.next(star.index)"
+                 [ngClass]="{'text-yellow-500':star.isYellow, 'text-gray-500': !star.isYellow}"></fa-icon>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <label class="font-medium text-xl">Comment</label>
+    <textarea rows="5"
+              required minlength="1" maxlength="300"
+              #comment="ngModel"
+              [(ngModel)]="review.comment"
+              [ngClass]="{'ring-rose-500':comment.errors , 'ring-1':comment.errors}"
+              class="border p-2 outline-none transition duration-500 focus:ring-1 focus:ring-green-900"></textarea>
+    <span *ngIf="comment.errors" class="text-rose-500">Comment is required!</span>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <label class="font-medium text-base">Your Full Name</label>
+    <input #fullname="ngModel"
+           [(ngModel)]="review.fullName"
+           required
+           type="text"
+           [ngClass]="{'ring-rose-500':fullname.errors , 'ring-1':fullname.errors}"
+           class="border p-2 outline-none transition duration-500 focus:ring-1 focus:ring-green-900">
+    <span *ngIf="fullname.errors" class="text-rose-500">Full Name is required!</span>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <label class="font-medium text-base">Email</label>
+    <input type="email"
+           #email="ngModel"
+           required email
+           [(ngModel)]="review.email"
+           [ngClass]="{'ring-rose-500':email.errors , 'ring-1':email.errors}"
+           class="border p-2 outline-none transition duration-500 focus:ring-1 focus:ring-green-900">
+    <span *ngIf="email.errors " class="text-rose-500">Email is required!</span>
+  </div>
+  <div class="flex flex-row space-x-2">
+    <button class="btn-gradient-danger w-full" (click)="isModalHidden=true">Cancel</button>
+    <button (click)="onSend()"
+            [disabled]="comment.errors || fullname.errors || email.errors"
+            class="btn-gradient-green w-full disabled:opacity-50">Send
+    </button>
+  </div>
+</app-modal-window>

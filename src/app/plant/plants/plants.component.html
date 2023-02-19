@@ -61,7 +61,7 @@
 
         <div class="grid grid-cols-12 gap-6">
           <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3 h-full" *ngFor="let item of items">
-            <app-plant-card [plant]="item"></app-plant-card>
+            <app-plant-card (onPlantAddedToBasket)="isPopupHidden$.next(false)" [plant]="item"></app-plant-card>
           </div>
         </div>
 
@@ -74,3 +74,4 @@
     </div>
   </div>
 </div>
+<app-popup [message]="'Plant was added to Cart!'" [hidden$]="isPopupHidden$"></app-popup>

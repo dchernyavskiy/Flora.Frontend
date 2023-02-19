@@ -10,7 +10,8 @@
     </div>
     <span class="rounded-full border border-rose-400 px-1 text-sm font-medium">191919</span>
   </div>
-  <a [routerLink]="['./', plant.id]" class="text-base font-medium whitespace-nowrap overflow-ellipsis">{{plant.name}}</a>
+  <a [routerLink]="['./', plant.id]"
+     class="text-base font-medium whitespace-nowrap overflow-ellipsis">{{plant.name}}</a>
   <span class="text-xl font-bold">{{plant.price | currency}}</span>
-  <button class="btn-gradient-orange">Add To Cart</button>
+  <button (click)="addToBasket(plant.id!)" class="btn-gradient-orange">Add To Cart</button>
 </div>

@@ -1866,7 +1866,7 @@ export interface CreatePlantCommand {
 
 export interface CreateReviewCommand {
     comment?: string | undefined;
-    userName?: string | undefined;
+    fullName?: string | undefined;
     email?: string | undefined;
     rate?: number;
     parentId?: string | undefined;

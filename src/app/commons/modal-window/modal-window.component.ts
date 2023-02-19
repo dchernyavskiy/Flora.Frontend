@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {faX} from "@fortawesome/free-solid-svg-icons";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-modal-window',
@@ -8,12 +9,6 @@ import {faX} from "@fortawesome/free-solid-svg-icons";
 })
 export class ModalWindowComponent {
   @Input() public title: string = '';
-  @Input() public hidden: boolean = false;
-  @Output() public onClosed: EventEmitter<void> = new EventEmitter<void>();
+  @Input() public hidden$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   faX = faX;
-
-  close() {
-    this.hidden = true;
-    this.onClosed.emit();
-  }
 }

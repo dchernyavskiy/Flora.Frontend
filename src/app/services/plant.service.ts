@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
 import {Observable} from "rxjs";
-import {OrderBy, PlantBriefDtoPaginatedList, PlantDto} from "../api/api";
+import {OrderBy, PlantBriefDtoPaginatedList, PlantDto, SearchPlantBriefDtoCollection} from "../api/api";
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +14,9 @@ export class PlantService extends BaseService {
 
   get(plantId: string): Observable<PlantDto> {
     return this.client.get4(plantId, this.apiVersion);
+  }
+
+  search(searchString: string): Observable<SearchPlantBriefDtoCollection> {
+    return this.client.search(searchString, this.apiVersion);
   }
 }

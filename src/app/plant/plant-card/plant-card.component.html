@@ -4,11 +4,7 @@
   </a>
 
   <div class="flex flex-row justify-between">
-    <div class="flex text-sm font-medium text-green-900">
-      <fa-icon [icon]="faCheck"></fa-icon>
-      <span class="ml-1">Notes</span>
-    </div>
-    <span class="rounded-full border border-rose-400 px-1 text-sm font-medium">191919</span>
+    <app-rating [rate]="plant.rate!"></app-rating>
   </div>
   <a [routerLink]="['./', plant.id]"
      class="text-base font-medium whitespace-nowrap overflow-ellipsis">{{plant.name}}</a>

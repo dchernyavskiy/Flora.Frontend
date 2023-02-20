@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {CategoryService} from "../../services/category.service";
 import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-icons";
 import {ActivatedRoute} from "@angular/router";
-import {CategoryBriefDto} from "../../api/api";
+import {CategoryBriefDto, SearchPlantBriefDto} from "../../api/api";
 import {BasketService} from "../../services/basket.service";
+import {PlantService} from "../../services/plant.service";
 
 
 @Component({
@@ -21,21 +22,19 @@ export class HeaderComponent implements OnInit {
   currentCategory: CategoryBriefDto | undefined;
   search: string = '';
   basketCount: number | undefined;
+  foundItems: SearchPlantBriefDto[] = [];
 
-  constructor(private categoryService: CategoryService, private basketService: BasketService) {
+  constructor(private categoryService: CategoryService, private plantService: PlantService, private basketService: BasketService) {
 
   }
 
   ngOnInit(): void {
     this.categoryService.getAll().subscribe(response => {
       this.categories = response.items;
-    })
+    });
     this.basketService.basketCount$.subscribe(response => {
       this.basketCount = response;
-    })
-    // this.basketService.count().subscribe(res => {
-    //   this.basketCount = res;
-    // })
+    });
   }
 
   setSubCategories(category: CategoryBriefDto) {
@@ -44,6 +43,9 @@ export class HeaderComponent implements OnInit {
   }
 
   onInput($event: Event) {
+    this.plantService.search(this.search).subscribe(res =>{
+      this.foundItems = res.items!;
+    })
   }
 
   areResultsVisible: boolean = false;
@@ -55,6 +57,7 @@ export class HeaderComponent implements OnInit {
 
   onPlanClicked($event: MouseEvent) {
     this.areResultsVisible = false;
+    document.body.style.overflow = 'auto';
   }
 
   onSearchMouseLeave($event: FocusEvent) {

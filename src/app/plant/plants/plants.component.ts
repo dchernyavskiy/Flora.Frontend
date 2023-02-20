@@ -13,8 +13,14 @@ import {BehaviorSubject} from "rxjs";
   styleUrls: ['./plants.component.scss']
 })
 export class PlantsComponent implements OnInit {
+
+  selectGroups = [
+    {value: 0 as OrderBy, title: 'Rate'},
+    {value: 1 as OrderBy, title: 'Price'},
+    {value: 2 as OrderBy, title: 'Delivery Date'},
+  ];
+  currentGroup = this.selectGroups[0];
   iconGroup = {
-    orderBy: 3 as OrderBy,
     isAsc: true,
     ascIcon: faArrowUpWideShort,
     descIcon: faArrowDownWideShort
@@ -27,24 +33,13 @@ export class PlantsComponent implements OnInit {
   items: PlantBriefDto[] | undefined;
   pageNumber: number | undefined = 1;
   totalCount: number | undefined;
-  isPopupHidden: boolean = true;
   isPopupHidden$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   constructor(private route: ActivatedRoute, private router: Router, private categoryService: CategoryService, private plantService: PlantService) {
-    this.router.events.subscribe(res => {
-      this.pageNumber = 1;
-      this.route.queryParams.subscribe(res => {
-        let categoryId = res['categoryId'];
-        this.categoryService.get(categoryId).subscribe(response => {
-          this.currentCategory = response;
-          this.getPlants();
-        })
-      });
-    });
   }
 
   getPlants() {
-    this.plantService.getAll(this.currentCategory?.id!, this.pageNumber!, this.pageSize, this.iconGroup.orderBy, this.iconGroup.isAsc).subscribe(response => {
+    this.plantService.getAll(this.currentCategory?.id!, this.pageNumber!, this.pageSize, this.currentGroup.value, this.iconGroup.isAsc).subscribe(response => {
       this.items = response.items;
       this.hasNextPage = response.hasNextPage;
       this.hasPreviousPage = response.hasPreviousPage;
@@ -55,11 +50,28 @@ export class PlantsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.route.queryParams.subscribe(res => {
+      this.pageNumber = 1;
+      this.categoryService.get(res['categoryId']).subscribe(res => {
+        this.currentCategory = res;
+        console.log(res)
+        this.getPlants();
+      })
+    });
   }
 
   onChangeCurrentPage($event: number) {
     this.pageNumber = $event;
+    this.getPlants();
+  }
+
+  select(group: { title: string; value: 0 | 1 | 2 }) {
+    this.currentGroup = group;
+    this.getPlants();
+  }
+
+  changeArrangingMethod() {
+    this.iconGroup.isAsc = !this.iconGroup.isAsc;
     this.getPlants();
   }
 }

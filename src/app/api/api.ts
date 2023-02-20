@@ -12,7 +12,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import {ClientBase} from "./client-base";
+import { ClientBase } from './client-base';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -1098,6 +1098,66 @@ export class Client extends ClientBase {
     }
 
     /**
+     * @param searchString (optional)
+     * @return Success
+     */
+    search(searchString: string | undefined, apiVersion: string): Observable<SearchPlantBriefDtoCollection> {
+        let url_ = this.baseUrl + "/api/v{apiVersion}/Plant/Search?";
+        if (apiVersion === undefined || apiVersion === null)
+            throw new Error("The parameter 'apiVersion' must be defined.");
+        url_ = url_.replace("{apiVersion}", encodeURIComponent("" + apiVersion));
+        if (searchString === null)
+            throw new Error("The parameter 'searchString' cannot be null.");
+        else if (searchString !== undefined)
+            url_ += "SearchString=" + encodeURIComponent("" + searchString) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SearchPlantBriefDtoCollection>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SearchPlantBriefDtoCollection>;
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<SearchPlantBriefDtoCollection> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as SearchPlantBriefDtoCollection;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional)
      * @return Success
      */
@@ -1943,6 +2003,7 @@ export interface PlantBriefDto {
     name?: string | undefined;
     price?: number;
     deliveryDate?: Date;
+    rate?: number;
 }
 
 export interface PlantBriefDtoPaginatedList {
@@ -1976,6 +2037,17 @@ export interface ReviewDto {
     rate?: number;
     postDate?: Date;
     children?: ReviewDto[] | undefined;
+}
+
+export interface SearchPlantBriefDto {
+    id?: string;
+    plantName?: string | undefined;
+    categoryName?: string | undefined;
+}
+
+export interface SearchPlantBriefDtoCollection {
+    items?: SearchPlantBriefDto[] | undefined;
+    count?: number;
 }
 
 export interface UpdateBasketCommand {

@@ -53,10 +53,9 @@ export class PlantComponent {
   }
 
   onSend() {
-    this.review.plantId = this.plant.id;
+
     this.review.rate = this.rate.value;
     this.reviewService.send(this.review).subscribe(res => {
-      console.log('created review with id: ' + res);
       this.getPlant();
       this.modalHidden$.next(true);
     })
@@ -67,6 +66,8 @@ export class PlantComponent {
     if (parentId) {
       this.review.parentId = parentId as string;
       this.isStarHidden = false;
+    }else{
+      this.review.plantId = this.plant.id;
     }
     this.modalHidden$.next(false);
   }

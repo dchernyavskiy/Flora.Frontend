@@ -11,7 +11,6 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {SwiperModule} from "swiper/angular";
 import {FormsModule} from "@angular/forms";
 
-
 @NgModule({
   declarations: [
     PlantsComponent,

@@ -1,0 +1,11 @@
+<div [ngClass]="{'hidden':hidden$.value}"
+     class="fixed  z-50 top-0 right-0 left-0 bottom-0 flex flex-col justify-center bg-[rgba(0,0,0,0.5)] transition duration-500">
+  <div class="mx-auto flex w-1/2 flex-col space-y-2 bg-white p-4 opacity-100">
+    <div class="flex flex-row justify-between">
+      <h2 class="font-medium text-xl">{{title}}</h2>
+      <fa-icon [icon]="faX" (click)="hidden$.next(true)" class="hover:text-green-900 transition duration-500"></fa-icon>
+    </div>
+    <div class="my-2 border border-gray-300"></div>
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Category, CategoryService} from "../../services/category.service";
+import {CategoryService} from "../../services/category.service";
 import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-icons";
 import {ActivatedRoute} from "@angular/router";
+import {CategoryBriefDto, SearchPlantBriefDto} from "../../api/api";
+import {BasketService} from "../../services/basket.service";
+import {PlantService} from "../../services/plant.service";
 
 
 @Component({
@@ -9,27 +12,40 @@ import {ActivatedRoute} from "@angular/router";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   faBasketShopping = faBasketShopping;
   faUser = faUser;
   faHeart = faHeart;
-  categories: Category[];
-  subcategories: Category[] | undefined = [];
-  currentCategory: Category | undefined;
+  categories: CategoryBriefDto[] | undefined;
+  subcategories: CategoryBriefDto[] | undefined = [];
+  currentCategory: CategoryBriefDto | undefined;
   search: string = '';
+  basketCount: number | undefined;
+  foundItems: SearchPlantBriefDto[] = [];
 
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute) {
-    this.categories = categoryService.categories;
+  constructor(private categoryService: CategoryService, private plantService: PlantService, private basketService: BasketService) {
+
   }
 
-  setSubCategories(category: Category) {
+  ngOnInit(): void {
+    this.categoryService.getAll().subscribe(response => {
+      this.categories = response.items;
+    });
+    this.basketService.basketCount$.subscribe(response => {
+      this.basketCount = response;
+    });
+  }
+
+  setSubCategories(category: CategoryBriefDto) {
     this.currentCategory = category;
-    this.subcategories = category.subcategories;
+    this.subcategories = category.children;
   }
 
   onInput($event: Event) {
-    console.log($event)
+    this.plantService.search(this.search).subscribe(res =>{
+      this.foundItems = res.items!;
+    })
   }
 
   areResultsVisible: boolean = false;
@@ -41,6 +57,7 @@ export class HeaderComponent {
 
   onPlanClicked($event: MouseEvent) {
     this.areResultsVisible = false;
+    document.body.style.overflow = 'auto';
   }
 
   onSearchMouseLeave($event: FocusEvent) {

@@ -14,17 +14,23 @@
                (focus)="onSearchFocus($event)"
                class="w-full border border-slate-300 px-5 py-2.5 outline-0"
                placeholder="e.g. Something"/>
-        <button class="btn-gradient-orange">Search</button>
+        <a class="btn-gradient-orange">Search</a>
       </div>
-      <div class="absolute hidden z-50 left-0 right-0 top-full border bg-white p-1 transition duration-500"
-           [ngClass]="{'block':areResultsVisible}">
-        <a class="flex flex-row justify-between p-2"
-           *ngFor="let i of [1,2,3,4,5]"
-           (click)="onPlanClicked($event)"
-           [routerLink]="['/plants', 'Abbey', '1']">
-          <span class="my-auto font-medium">Plant name</span>
-          <img class="max-h-[32px]" src="https://picsum.photos/300/300"/>
-        </a>
+      <div
+        class="absolute scrollbar overflow-y-scroll min-h-fit max-h-[32rem] hidden z-50 left-0 right-0 top-full border bg-white p-1 transition duration-500"
+        [ngClass]="{'block':areResultsVisible}">
+        <ng-container *ngIf="foundItems">
+          <a class="flex flex-row space-x-2 p-2"
+             *ngFor="let item of foundItems"
+             (click)="onPlanClicked($event)"
+             [routerLink]="['/plants', item.categoryName, item.id]">
+            <img class="max-h-[32px]" src="https://picsum.photos/300/300"/>
+            <span class="my-auto font-medium">{{item.plantName}}</span>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="foundItems.length == 0">
+          <h2 class="text-center font-bold">There are no results!</h2>
+        </ng-container>
       </div>
       <div
         class="fixed hidden  z-20 w-full h-full bg-black left-0 right-0 bottom-0 top-0 opacity-70 "
@@ -40,19 +46,23 @@
       </a>
 
       <a [routerLink]="['/cabinet', 'wishlist']"
-         class="relative m-auto flex flex-row font-medium text-green-900">
-        <fa-icon [icon]="faHeart"></fa-icon>
-        <div class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 top-0 -right-3.5 -top-2">
+         class="relative m-auto flex flex-row font-medium text-green-900 group">
+        <fa-icon [icon]="faHeart" [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+        <div
+          class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
           <div class="m-auto text-white font-bold text-center">3</div>
         </div>
       </a>
 
-      <div class="relative m-auto flex flex-row font-medium text-green-900">
-        <fa-icon [icon]="faBasketShopping"></fa-icon>
-        <div class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 top-0 -right-3.5 -top-2">
-          <div class="m-auto text-white font-bold text-center">3</div>
+      <a [routerLink]="['/basket']"
+         class="relative m-auto flex flex-row font-medium text-green-900 group">
+        <fa-icon [icon]="faBasketShopping"
+                 [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+        <div *ngIf="basketCount"
+             class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
+          <div class="m-auto text-white font-bold text-center">{{basketCount!}}</div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
   <div class="group container mx-auto">
@@ -64,6 +74,7 @@
           [routerLinkActive]="['bg-[#EA6E27]']"
           class="w-full py-2 text-center font-bold text-white transition duration-300 bg-[rgba(38,137,104,1)] hover:bg-[#EA6E27]">
           <a [routerLink]="['/plants', category.name]"
+             class="block"
              [queryParams]="{categoryId:category.id}">{{category.name}}</a>
         </li>
       </ul>
@@ -81,5 +92,3 @@
     </nav>
   </div>
 </header>
-
-

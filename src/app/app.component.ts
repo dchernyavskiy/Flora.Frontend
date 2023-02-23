@@ -1,5 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {OidcSecurityService} from "angular-auth-oidc-client";
+import {AuthService} from "./services/auth.service";
+import {HttpClient, HttpHeaders, HttpResponse, HttpResponseBase} from "@angular/common/http";
+import * as url from "url";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +13,7 @@ import {OidcSecurityService} from "angular-auth-oidc-client";
 export class AppComponent implements OnInit {
   title = 'flora';
 
-  constructor(private oidcService: OidcSecurityService) {
+  constructor(protected oidcService: OidcSecurityService, protected authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -18,6 +22,6 @@ export class AppComponent implements OnInit {
       if (token)
         localStorage.setItem('token', token);
       console.log(response)
-    })
+    });
   }
 }

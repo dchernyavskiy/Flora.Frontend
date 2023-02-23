@@ -57,6 +57,7 @@
                     class="text-sm text-rose-500">Email is required!</span>
             </div>
             <button type="button"
+                    (click)="save()"
                     class="btn-gradient-orange col-start-1 col-end-5">
               Save
             </button>
@@ -64,7 +65,7 @@
         </form>
         <div class="grid grid-cols-12 gap-6">
           <button class="btn-gradient-green col-span-2">Change Password</button>
-          <button class="btn-gradient-green col-span-2">Sign Out</button>
+          <button class="btn-gradient-green col-span-2" (click)="logoff()">Sign Out</button>
           <button class="btn-gradient-danger col-span-2 col-end-12">Delete Account</button>
         </div>
       </div>

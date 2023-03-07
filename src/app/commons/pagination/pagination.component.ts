@@ -5,15 +5,12 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit {
-  @Input() public hasNextPage: boolean = false;
-  @Input() public hasPreviousPage: boolean = false;
-  @Input() public totalPages: number = 0;
+export class PaginationComponent {
+  @Input() public hasNextPage = false;
+  @Input() public hasPreviousPage = false;
+  @Input() public totalPages = 0;
   @Output() public currentPageChanged: EventEmitter<number> = new EventEmitter<number>();
-  @Input() public currentPage: number = 1;
-
-  ngOnInit(): void {
-  }
+  @Input() public currentPage = 1;
 
   range(): number[] {
     return Array.from({length: this.totalPages}, (x, i) => i + 1);

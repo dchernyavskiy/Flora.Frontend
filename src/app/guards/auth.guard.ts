@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {map, Observable} from 'rxjs';
 import {OidcSecurityService} from "angular-auth-oidc-client";
 import {AuthService} from "../services/auth.service";

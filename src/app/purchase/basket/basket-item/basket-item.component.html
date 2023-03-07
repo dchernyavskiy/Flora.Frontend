@@ -18,7 +18,7 @@
             <fa-icon [icon]="faTrash"></fa-icon>
             <h3 class="font-medium">Delete</h3>
           </div>
-          <div
+          <div (click)="toWishlist(item.plant?.id!)"
             class="flex w-full justify-start space-x-2 transition duration-500 hover:fill-orange-500 hover:text-orange-500">
             <fa-icon [icon]="faHeart"></fa-icon>
             <h3 class="font-medium">To Wishlist</h3>
@@ -30,7 +30,7 @@
       <div class="my-auto p-3 font-bold">
         <button type="button"
                 (click)="changeQuantity(-1)"
-                [disabled]="item.quantity == 1"
+                [disabled]="item.quantity === 1"
                 class="m-auto fill-black">
           <fa-icon [icon]="faMinus"></fa-icon>
         </button>

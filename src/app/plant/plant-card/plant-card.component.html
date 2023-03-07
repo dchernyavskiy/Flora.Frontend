@@ -1,7 +1,12 @@
 <div class="flex flex-col justify-center space-y-4 border p-[20px]">
-  <a [routerLink]="['./', plant.id]">
-    <img class="h-auto w-auto place-self-center object-scale-down" src="https://picsum.photos/300/300"/>
-  </a>
+  <div class="relative">
+    <a [routerLink]="['./', plant.id]">
+      <img class="h-auto w-auto place-self-center object-scale-down" src="https://picsum.photos/300/300"/>
+    </a>
+    <div class="absolute rounded-full bg-white top-2 right-2">
+      <fa-icon class="p-1 text-gray-500" (click)="addToWishlist(plant.id!)" [icon]="faHeart"></fa-icon>
+    </div>
+  </div>
 
   <div class="flex flex-row justify-between">
     <app-rating [rate]="plant.rate!"></app-rating>

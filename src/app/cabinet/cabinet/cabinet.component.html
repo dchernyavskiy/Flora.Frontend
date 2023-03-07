@@ -71,10 +71,29 @@
       </div>
     </app-menu-item>
     <app-menu-item [icon]="faHeart"
+                   class="my-auto mx-auto"
                    [link]="['/cabinet', 'wishlist']"
                    [active]="tabs.wishlist"
                    [innerHtml]="'<span>Wishlist</span>'">
-      Wishlist content
+      <ng-container *ngIf="wishlist.length > 0">
+        <div class="grid grid-cols-12 gap-6">
+          <ng-container *ngFor="let item of wishlist">
+            <app-wishlist-item (delete)="getWishList()" [item]="item" class="col-span-3"></app-wishlist-item>
+          </ng-container>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="wishlist.length === 0">
+        <div class="flex flex-col justify-center text-center space-y-5">
+          <h2 class="text-2xl font-bold">
+            Your wishlist is empty!
+          </h2>
+          <a [routerLink]="['/home']"
+             class="btn-gradient-green w-fit self-center">
+            Go to Home
+          </a>
+        </div>
+      </ng-container>
+
     </app-menu-item>
     <app-menu-item [icon]="faTableList"
                    [link]="['/cabinet', 'orders']"

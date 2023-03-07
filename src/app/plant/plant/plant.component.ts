@@ -6,6 +6,7 @@ import {AddToBasketCommand, CreateReviewCommand, PlantDto, ReviewDto} from "../.
 import {BasketService} from "../../services/basket.service";
 import {BehaviorSubject, map} from "rxjs";
 import {ReviewService} from "../../services/review.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-plant',
@@ -17,7 +18,7 @@ export class PlantComponent {
   faMinus = faMinus;
   faStar = faStar;
   plant: PlantDto = {};
-  reviewCount: number = 0;
+  reviewCount = 0;
   review: CreateReviewCommand = {};
 
   rate = new BehaviorSubject<number>(0);
@@ -29,12 +30,26 @@ export class PlantComponent {
   addToBasketCommand: AddToBasketCommand = {
     quantity: 1
   };
-  isModalHidden: boolean = true;
-  isStarHidden: boolean = true;
+  isModalHidden = true;
+  isStarHidden = true;
   modalHidden$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  constructor(private route: ActivatedRoute, private plantService: PlantService, private reviewService: ReviewService, private basketService: BasketService) {
+  constructor(private route: ActivatedRoute,
+              private plantService: PlantService,
+              private reviewService: ReviewService,
+              private basketService: BasketService,
+              private authService:AuthService) {
     this.getPlant();
+    this.authService.isAuthenticated().subscribe(res=>{
+      if(res){
+        this.authService.getData().subscribe(res =>{
+          if(res){
+            this.review.fullName = res.firstName + ' ' + res.lastName;
+            this.review.email = res.email;
+          }
+        })
+      }
+    })
   }
 
   reviewsCount(reviews: ReviewDto[]): number {
@@ -74,7 +89,7 @@ export class PlantComponent {
 
   private getPlant() {
     this.route.paramMap.subscribe(res => {
-      let plantId = res.get('id');
+      const plantId = res.get('id');
       this.plantService.get(plantId!).subscribe(res => {
         this.plant = res;
         this.reviewCount = this.reviewsCount(res.reviews!) - 1;

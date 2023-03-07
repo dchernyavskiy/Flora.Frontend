@@ -33,7 +33,7 @@
           <div class="p-3 font-bold">
             <button type="button"
                     (click)="addToBasketCommand.quantity = addToBasketCommand.quantity! - 1"
-                    [disabled]="addToBasketCommand.quantity == 1"
+                    [disabled]="addToBasketCommand.quantity === 1"
                     class="fill-black m-auto">
               <fa-icon [icon]="faMinus"></fa-icon>
             </button>
@@ -90,7 +90,7 @@
                       [ngTemplateOutletContext]="{$implicit: review, level:0, rateVisibility:true}"
         >
         </ng-container>
-        <ng-container *ngIf="!plant.reviews || plant.reviews.length == 0">
+        <ng-container *ngIf="!plant.reviews || plant.reviews.length === 0">
           <div class="flex flex-col justify-center space-y-4">
             <h2 class="text-center text-2xl ">
               There is no reviews. You can be the first to leave one!

@@ -7,11 +7,10 @@ import {TabItemComponent} from "./tab-item/tab-item.component";
   styleUrls: ['./tab.component.scss']
 })
 export class TabComponent implements AfterContentInit {
-  // @ts-ignore
-  @ContentChildren(TabItemComponent) tabs: QueryList<TabItemComponent>;
+  @ContentChildren(TabItemComponent) tabs: QueryList<TabItemComponent> = new QueryList<TabItemComponent>();
 
   ngAfterContentInit(): void {
-    let activeTabs = this.tabs.filter((tab) => tab.active);
+    const activeTabs = this.tabs.filter((tab) => tab.active);
     if (activeTabs.length === 0) {
       this.selectTab(this.tabs.first);
     }

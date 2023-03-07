@@ -1,5 +1,6 @@
-import {Component, ContentChild, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {IconDefinition} from "@fortawesome/fontawesome-svg-core";
+import {fa0} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-menu-item',
@@ -7,11 +8,9 @@ import {IconDefinition} from "@fortawesome/fontawesome-svg-core";
   styleUrls: ['./menu-item.component.scss']
 })
 export class MenuItemComponent {
-  @Input('title') title: string = '';
-  // @ts-ignore
-  @Input('icon') icon: IconDefinition;
-  @Input('innerHtml') innerHtml: string = '';
-  @Input('active') active: boolean = false;
-  // @ts-ignore
-  @Input('link') link: string[];
+  @Input() title = '';
+  @Input() icon: IconDefinition = fa0;
+  @Input() innerHtml = '';
+  @Input() active = false;
+  @Input() link: string[] = [];
 }

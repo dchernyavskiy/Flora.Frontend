@@ -29,7 +29,7 @@ export class PlantsComponent implements OnInit {
   hasPreviousPage: boolean | undefined = false;
   totalPages: number | undefined = 0;
   currentCategory: CategoryDto | undefined = {};
-  pageSize: number = 12;
+  pageSize = 12;
   items: PlantBriefDto[] | undefined;
   pageNumber: number | undefined = 1;
   totalCount: number | undefined;

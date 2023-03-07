@@ -8,7 +8,7 @@ import {BasketItemDto} from "../../api/api";
   styleUrls: ['./basket.component.scss']
 })
 export class BasketComponent implements OnInit {
-  quantity: number = 1;
+  quantity = 1;
   items: BasketItemDto[] | undefined;
 
   constructor(private basketService: BasketService) {
@@ -27,7 +27,7 @@ export class BasketComponent implements OnInit {
 
 
   clear() {
-    this.basketService.clear().subscribe(res => {
+    this.basketService.clear().subscribe(_ => {
       this.items = [];
       this.basketService.updateBasketCount();
     })
@@ -38,6 +38,6 @@ export class BasketComponent implements OnInit {
   }
 
   update() {
-    this.basketService.update(this.items).subscribe(res =>{});
+    this.basketService.update(this.items).subscribe(_ =>{});
   }
 }

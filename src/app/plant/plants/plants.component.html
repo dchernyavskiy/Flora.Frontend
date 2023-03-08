@@ -22,24 +22,14 @@
         </div>
       </div>
 
-      <div class="flex flex-col space-y-2 border p-5">
-        <h2 class="text-2xl font-extrabold">Filter</h2>
-        <div class="flex flex-row space-x-4 border p-3">
-          <input id="filter.name-value"
-                 type="checkbox"
-                 name="filter.name-value"
-                 class="w-auto accent-green-900"/>
-          <label for="filter.name-value" class="font-medium">Label</label>
-        </div>
-      </div>
-<!--      <div class="flex flex-col space-y-2 border p-5" *ngFor="let filter of currentCategory?.filters!">-->
-<!--        <h2 class="text-2xl font-extrabold">{{filter.name}}</h2>-->
-<!--        <div class="flex flex-row space-x-4 border p-3" *ngFor="let value of filter.values">-->
-<!--          <input id="{{filter.name}}}-{{value}}"-->
+<!--      <div class="flex flex-col space-y-2 border p-5">-->
+<!--        <h2 class="text-2xl font-extrabold">Filter</h2>-->
+<!--        <div class="flex flex-row space-x-4 border p-3">-->
+<!--          <input id="filter.name-value"-->
 <!--                 type="checkbox"-->
-<!--                 name="{{filter.name}}}-{{value}}"-->
+<!--                 name="filter.name-value"-->
 <!--                 class="w-auto accent-green-900"/>-->
-<!--          <label for="{{filter.name}}}-{{value}}" class="font-medium">Label</label>-->
+<!--          <label for="filter.name-value" class="font-medium">Label</label>-->
 <!--        </div>-->
 <!--      </div>-->
     </div>
@@ -52,7 +42,7 @@
             *ngFor="let category of currentCategory?.children"
             [routerLink]="['/', category.name]"
             [queryParams]="{categoryId: category.id}">
-            <img class="max-w-16 max-h-16" src="https://picsum.photos/300/300"/>
+            <img class="max-w-16 max-h-16" [src]="category.photo?.link!"/>
             <span class="my-auto font-medium">{{category.name}}</span>
           </a>
         </div>

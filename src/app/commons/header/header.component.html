@@ -84,7 +84,7 @@
              [queryParams]="{categoryId: category.id}"
              class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3 hover:shadow-2xl transition duration-500"
              *ngFor="let category of subcategories">
-            <img class="max-h-[50px] max-w-[50px]" src="https://picsum.photos/300/300"/>
+            <img class="max-w-[50px] max-h-[50px]" [src]="category.photo?.link!"/>
             <span class="my-auto font-semibold">{{category.name}}</span>
           </a>
         </div>

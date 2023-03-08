@@ -7,6 +7,7 @@ import {BasketService} from "../../services/basket.service";
 import {BehaviorSubject, map} from "rxjs";
 import {ReviewService} from "../../services/review.service";
 import {AuthService} from "../../services/auth.service";
+import {logMessages} from "@angular-devkit/build-angular/src/builders/browser-esbuild/esbuild";
 
 @Component({
   selector: 'app-plant',
@@ -38,12 +39,12 @@ export class PlantComponent {
               private plantService: PlantService,
               private reviewService: ReviewService,
               private basketService: BasketService,
-              private authService:AuthService) {
+              private authService: AuthService) {
     this.getPlant();
-    this.authService.isAuthenticated().subscribe(res=>{
-      if(res){
-        this.authService.getData().subscribe(res =>{
-          if(res){
+    this.authService.isAuthenticated().subscribe(res => {
+      if (res) {
+        this.authService.getData().subscribe(res => {
+          if (res) {
             this.review.fullName = res.firstName + ' ' + res.lastName;
             this.review.email = res.email;
           }
@@ -67,12 +68,13 @@ export class PlantComponent {
     });
   }
 
-  onSend() {
-
+  send() {
     this.review.rate = this.rate.value;
-    this.reviewService.send(this.review).subscribe(res => {
-      this.getPlant();
-      this.modalHidden$.next(true);
+    this.reviewService.send(this.review).subscribe({
+      next: () => {
+        this.getPlant();
+        this.modalHidden$.next(true);
+      },
     })
   }
 
@@ -81,7 +83,7 @@ export class PlantComponent {
     if (parentId) {
       this.review.parentId = parentId as string;
       this.isStarHidden = false;
-    }else{
+    } else {
       this.review.plantId = this.plant.id;
     }
     this.modalHidden$.next(false);

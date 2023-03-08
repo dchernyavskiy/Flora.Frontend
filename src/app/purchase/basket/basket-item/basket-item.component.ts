@@ -24,7 +24,10 @@ export class BasketItemComponent {
   }
 
   changeQuantity(rise: 1 | -1) {
-    this.item.quantity! += rise;
+    if(this.item.quantity)
+      this.item.quantity += rise;
+    else
+      this.item.quantity = rise;
     this.quantityChanged.emit();
   }
 
@@ -38,7 +41,7 @@ export class BasketItemComponent {
   }
 
   toWishlist(id: string) {
-    this.wishlistService.add(id).subscribe(_ => {
+    this.wishlistService.add(id).subscribe(() => {
       this.wishlistService.updateWishlistCount();
       this.remove(id);
     })

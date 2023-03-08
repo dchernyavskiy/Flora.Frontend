@@ -3,6 +3,7 @@ import {AddToBasketCommand, PlantBriefDto} from "../../api/api";
 import {BasketService} from "../../services/basket.service";
 import {faHeart} from "@fortawesome/free-solid-svg-icons";
 import {WishlistService} from "../../services/wishlist.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-plant-card',
@@ -13,8 +14,9 @@ export class PlantCardComponent {
   @Input() public plant: PlantBriefDto = {};
   @Output() public plantAddedToBasket: EventEmitter<void> = new EventEmitter<void>();
   faHeart = faHeart;
+  isAddedToWishlist = false;
 
-  constructor(private basketService: BasketService, private wishlistService: WishlistService) {
+  constructor(private basketService: BasketService, private wishlistService: WishlistService, private authService: AuthService) {
   }
 
   addToBasket(plantId: string) {
@@ -29,8 +31,14 @@ export class PlantCardComponent {
   }
 
   addToWishlist(id: string) {
-    this.wishlistService.add(id).subscribe(_ =>{
-      this.wishlistService.updateWishlistCount();
+    this.wishlistService.add(id).subscribe({
+      next: () => {
+        this.isAddedToWishlist = !this.isAddedToWishlist;
+        this.wishlistService.updateWishlistCount();
+      },
+      error: () => {
+        this.authService.isAuthorizedAccess$.next(false);
+      }
     })
   }
 }

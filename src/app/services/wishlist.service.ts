@@ -7,10 +7,9 @@ import {OidcSecurityService} from "angular-auth-oidc-client";
 @Injectable({
   providedIn: 'root'
 })
-// @ts-ignore
 export class WishlistService extends BaseService {
 
-  constructor(private override client: Client, private oidcService: OidcSecurityService) {
+  constructor(override client: Client, private oidcService: OidcSecurityService) {
     super(client);
     this.setWishlistCount();
   }

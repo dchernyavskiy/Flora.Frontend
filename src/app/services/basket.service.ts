@@ -6,10 +6,9 @@ import {Observable, Subject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-// @ts-ignore
 export class BasketService extends BaseService {
 
-  constructor(private override client: Client) {
+  constructor(override client: Client) {
     super(client);
     this.setBasketCount()
   }

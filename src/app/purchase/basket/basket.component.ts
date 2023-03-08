@@ -27,7 +27,7 @@ export class BasketComponent implements OnInit {
 
 
   clear() {
-    this.basketService.clear().subscribe(_ => {
+    this.basketService.clear().subscribe(() => {
       this.items = [];
       this.basketService.updateBasketCount();
     })
@@ -38,6 +38,8 @@ export class BasketComponent implements OnInit {
   }
 
   update() {
-    this.basketService.update(this.items).subscribe(_ =>{});
+    this.basketService.update(this.items).subscribe(()=>{
+      console.log("basket is updated")
+    });
   }
 }

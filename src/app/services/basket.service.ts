@@ -1,16 +1,14 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
 import {AddToBasketCommand, BasketItemDto, BasketItemDtoCollection, Client, RemoveFromBasketCommand} from "../api/api";
-import {map, Observable, Subject} from "rxjs";
-import {Unit} from "@faker-js/faker";
+import {Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-// @ts-ignore
 export class BasketService extends BaseService {
 
-  constructor(private override client: Client) {
+  constructor(override client: Client) {
     super(client);
     this.setBasketCount()
   }

@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+
+/dist
+/tmp
+
+/karma.conf.js
+/protractor.conf.js
+/e2e/
+
+.git
+.gitignore
+.idea
+.vscode
+.DS_Store

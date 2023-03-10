@@ -1,0 +1,17 @@
+<div class="flex flex-col justify-center space-y-4 border p-[20px]">
+  <div class="relative">
+    <a [routerLink]="['./', item.id]">
+      <img class="h-auto w-auto place-self-center object-scale-down" src="https://picsum.photos/300/300"/>
+    </a>
+  </div>
+
+  <a [routerLink]="['./', item.id]"
+     class="text-base font-medium whitespace-nowrap overflow-ellipsis">{{item.name}}</a>
+  <div class="flex flex-row justify-between">
+    <span class="text-xl font-bold">{{item.price | currency}}</span>
+    <div class="flex flex-row space-x-2 text-green-900">
+      <fa-icon (click)="remove(item.id!)" [icon]="faTrash" [classes]="['hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+      <fa-icon (click)="toBasket(item.id!)" [icon]="faShoppingBasket" [classes]="['hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+    </div>
+  </div>
+</div>

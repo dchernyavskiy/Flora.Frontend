@@ -1,7 +1,4 @@
 export class ClientBase {
-  protected constructor() {
-  }
-
   protected transformOptions(options: any): Promise<any> {
     const authToken = localStorage.getItem('token');
     options = {

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryService} from "../../services/category.service";
 import {faUser, faBasketShopping, faHeart} from "@fortawesome/free-solid-svg-icons";
-import {ActivatedRoute} from "@angular/router";
 import {CategoryBriefDto, SearchPlantBriefDto} from "../../api/api";
 import {BasketService} from "../../services/basket.service";
 import {PlantService} from "../../services/plant.service";
+import {WishlistService} from "../../services/wishlist.service";
 
 
 @Component({
@@ -20,13 +20,12 @@ export class HeaderComponent implements OnInit {
   categories: CategoryBriefDto[] | undefined;
   subcategories: CategoryBriefDto[] | undefined = [];
   currentCategory: CategoryBriefDto | undefined;
-  search: string = '';
+  search = '';
   basketCount: number | undefined;
   foundItems: SearchPlantBriefDto[] = [];
+  wishlistCount: number | undefined;
 
-  constructor(private categoryService: CategoryService, private plantService: PlantService, private basketService: BasketService) {
-
-  }
+  constructor(private categoryService: CategoryService, private plantService: PlantService, private basketService: BasketService, private wishlistService: WishlistService) { }
 
   ngOnInit(): void {
     this.categoryService.getAll().subscribe(response => {
@@ -35,6 +34,9 @@ export class HeaderComponent implements OnInit {
     this.basketService.basketCount$.subscribe(response => {
       this.basketCount = response;
     });
+    this.wishlistService.wishlistCount$.subscribe(response =>{
+      this.wishlistCount = response;
+    })
   }
 
   setSubCategories(category: CategoryBriefDto) {
@@ -42,25 +44,25 @@ export class HeaderComponent implements OnInit {
     this.subcategories = category.children;
   }
 
-  onInput($event: Event) {
-    this.plantService.search(this.search).subscribe(res =>{
+  onInput() {
+    this.plantService.search(this.search).subscribe(res => {
       this.foundItems = res.items!;
     })
   }
 
-  areResultsVisible: boolean = false;
+  areResultsVisible = false;
 
-  onSearchFocus($event: FocusEvent) {
+  onSearchFocus() {
     this.areResultsVisible = true;
     document.body.style.overflow = 'hidden';
   }
 
-  onPlanClicked($event: MouseEvent) {
+  onPlanClicked() {
     this.areResultsVisible = false;
     document.body.style.overflow = 'auto';
   }
 
-  onSearchMouseLeave($event: FocusEvent) {
+  onSearchMouseLeave() {
     this.areResultsVisible = false;
     document.body.style.overflow = 'auto';
   }

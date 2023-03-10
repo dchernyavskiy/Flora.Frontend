@@ -12,5 +12,5 @@ export class PopupComponent {
   faXmark = faXmark;
 
   @Input() public hidden$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  @Input() public message: string = 'Message';
+  @Input() public message = 'Message';
 }

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {faEllipsisVertical, faHeart, faMinus, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {BasketItemDto} from "../../../api/api";
 import {BasketService} from "../../../services/basket.service";
+import {WishlistService} from "../../../services/wishlist.service";
 
 @Component({
   selector: 'app-basket-item',
@@ -10,29 +11,39 @@ import {BasketService} from "../../../services/basket.service";
 })
 export class BasketItemComponent {
   @Input() public item: BasketItemDto = {};
-  @Output() public onQuantityChanged: EventEmitter<void> = new EventEmitter<void>();
-  @Output() public onItemDeleted: EventEmitter<void> = new EventEmitter<void>();
-  quantity: number = 1;
+  @Output() public quantityChanged: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public itemDeleted: EventEmitter<void> = new EventEmitter<void>();
+  quantity = 1;
   faHeart = faHeart;
   faTrash = faTrash;
   faMinus = faMinus;
   faPlus = faPlus;
   faEllipsisVertical = faEllipsisVertical;
 
-  constructor(private basketService: BasketService) {
+  constructor(private basketService: BasketService, private wishlistService: WishlistService) {
   }
 
   changeQuantity(rise: 1 | -1) {
-    this.item.quantity! += rise;
-    this.onQuantityChanged.emit();
+    if(this.item.quantity)
+      this.item.quantity += rise;
+    else
+      this.item.quantity = rise;
+    this.quantityChanged.emit();
   }
 
   remove(id: string) {
     this.basketService.removeFromBasket({plantId: id}).subscribe(
-      res => {
+      () => {
         this.basketService.updateBasketCount();
-        this.onItemDeleted.emit();
+        this.itemDeleted.emit();
       }
     )
+  }
+
+  toWishlist(id: string) {
+    this.wishlistService.add(id).subscribe(() => {
+      this.wishlistService.updateWishlistCount();
+      this.remove(id);
+    })
   }
 }

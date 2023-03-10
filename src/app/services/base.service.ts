@@ -5,7 +5,7 @@ import {Client} from "../api/api";
   providedIn: 'root'
 })
 export class BaseService {
-  protected apiVersion: string = '1';
+  protected apiVersion = '1';
 
   constructor(protected client: Client) {
   }

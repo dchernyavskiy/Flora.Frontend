@@ -9,6 +9,6 @@ import {Observable} from "rxjs";
 export class ReviewService extends BaseService{
 
   send(review: CreateReviewCommand): Observable<string>{
-    return this.client.create6(this.apiVersion, review);
+    return this.client.create5(this.apiVersion, review);
   }
 }

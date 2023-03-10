@@ -12,7 +12,7 @@ import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 
 import { Observable, from as _observableFrom, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
-import { ClientBase } from './client-base';
+import {ClientBase} from "./client-base";
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -138,66 +138,6 @@ export class Client extends ClientBase {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BasketItemDtoCollection;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @param body (optional)
-     * @return Success
-     */
-    create(apiVersion: string, body: CreateBasketCommand | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/v{apiVersion}/Basket/Create";
-        if (apiVersion === undefined || apiVersion === null)
-            throw new Error("The parameter 'apiVersion' must be defined.");
-        url_ = url_.replace("{apiVersion}", encodeURIComponent("" + apiVersion));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
-            return this.http.request("post", url_, transformedOptions_);
-        })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<string>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<string>;
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string;
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -446,7 +386,7 @@ export class Client extends ClientBase {
      * @param body (optional)
      * @return Success
      */
-    create2(apiVersion: string, body: CreateCategoryCommand | undefined): Observable<string> {
+    create(apiVersion: string, body: CreateCategoryCommand | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/v{apiVersion}/Category/Create";
         if (apiVersion === undefined || apiVersion === null)
             throw new Error("The parameter 'apiVersion' must be defined.");
@@ -468,11 +408,11 @@ export class Client extends ClientBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate2(response_);
+            return this.processCreate(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate2(response_ as any);
+                    return this.processCreate(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -481,7 +421,7 @@ export class Client extends ClientBase {
         }));
     }
 
-    protected processCreate2(response: HttpResponseBase): Observable<string> {
+    protected processCreate(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -685,7 +625,7 @@ export class Client extends ClientBase {
      * @param body (optional)
      * @return Success
      */
-    create3(apiVersion: string, body: CreateCharacteristicCommand | undefined): Observable<string> {
+    create2(apiVersion: string, body: CreateCharacteristicCommand | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/v{apiVersion}/Characteristic/Create";
         if (apiVersion === undefined || apiVersion === null)
             throw new Error("The parameter 'apiVersion' must be defined.");
@@ -707,11 +647,11 @@ export class Client extends ClientBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate3(response_);
+            return this.processCreate2(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate3(response_ as any);
+                    return this.processCreate2(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -720,7 +660,7 @@ export class Client extends ClientBase {
         }));
     }
 
-    protected processCreate3(response: HttpResponseBase): Observable<string> {
+    protected processCreate2(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1041,7 +981,7 @@ export class Client extends ClientBase {
      * @param body (optional)
      * @return Success
      */
-    create4(apiVersion: string, body: CreateOrderCommand | undefined): Observable<string> {
+    create3(apiVersion: string, body: CreateOrderCommand | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/v{apiVersion}/Order/Create";
         if (apiVersion === undefined || apiVersion === null)
             throw new Error("The parameter 'apiVersion' must be defined.");
@@ -1063,11 +1003,11 @@ export class Client extends ClientBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate4(response_);
+            return this.processCreate3(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate4(response_ as any);
+                    return this.processCreate3(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -1076,7 +1016,7 @@ export class Client extends ClientBase {
         }));
     }
 
-    protected processCreate4(response: HttpResponseBase): Observable<string> {
+    protected processCreate3(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1301,7 +1241,7 @@ export class Client extends ClientBase {
      * @param body (optional)
      * @return Success
      */
-    create5(apiVersion: string, body: CreatePlantCommand | undefined): Observable<string> {
+    create4(apiVersion: string, body: CreatePlantCommand | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/v{apiVersion}/Plant/Create";
         if (apiVersion === undefined || apiVersion === null)
             throw new Error("The parameter 'apiVersion' must be defined.");
@@ -1323,11 +1263,11 @@ export class Client extends ClientBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate5(response_);
+            return this.processCreate4(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate5(response_ as any);
+                    return this.processCreate4(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -1336,7 +1276,7 @@ export class Client extends ClientBase {
         }));
     }
 
-    protected processCreate5(response: HttpResponseBase): Observable<string> {
+    protected processCreate4(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1408,6 +1348,63 @@ export class Client extends ClientBase {
             let result200: any = null;
             result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as boolean;
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional)
+     * @return Success
+     */
+    removeFromWishlist(apiVersion: string, body: RemoveFromWishlistCommand | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/v{apiVersion}/Plant/RemoveFromWishlist";
+        if (apiVersion === undefined || apiVersion === null)
+            throw new Error("The parameter 'apiVersion' must be defined.");
+        url_ = url_.replace("{apiVersion}", encodeURIComponent("" + apiVersion));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("delete", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processRemoveFromWishlist(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRemoveFromWishlist(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processRemoveFromWishlist(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1655,7 +1652,7 @@ export class Client extends ClientBase {
      * @param body (optional)
      * @return Success
      */
-    create6(apiVersion: string, body: CreateReviewCommand | undefined): Observable<string> {
+    create5(apiVersion: string, body: CreateReviewCommand | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/v{apiVersion}/Review/Create";
         if (apiVersion === undefined || apiVersion === null)
             throw new Error("The parameter 'apiVersion' must be defined.");
@@ -1677,11 +1674,11 @@ export class Client extends ClientBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate6(response_);
+            return this.processCreate5(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate6(response_ as any);
+                    return this.processCreate5(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -1690,7 +1687,7 @@ export class Client extends ClientBase {
         }));
     }
 
-    protected processCreate6(response: HttpResponseBase): Observable<string> {
+    protected processCreate5(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1772,10 +1769,70 @@ export class Client extends ClientBase {
     }
 
     /**
+     * @param query (optional)
+     * @return Success
+     */
+    getWishlistCount(query: GetWishlistCountQuery | undefined, apiVersion: string): Observable<WishlistCount> {
+        let url_ = this.baseUrl + "/api/v{apiVersion}/Wishlist/GetWishlistCount?";
+        if (apiVersion === undefined || apiVersion === null)
+            throw new Error("The parameter 'apiVersion' must be defined.");
+        url_ = url_.replace("{apiVersion}", encodeURIComponent("" + apiVersion));
+        if (query === null)
+            throw new Error("The parameter 'query' cannot be null.");
+        else if (query !== undefined)
+            url_ += "query=" + encodeURIComponent("" + query) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
+            return this.http.request("get", url_, transformedOptions_);
+        })).pipe(_observableMergeMap((response_: any) => {
+            return this.processGetWishlistCount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWishlistCount(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<WishlistCount>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<WishlistCount>;
+        }));
+    }
+
+    protected processGetWishlistCount(response: HttpResponseBase): Observable<WishlistCount> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as WishlistCount;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param body (optional)
      * @return Success
      */
-    create7(apiVersion: string, body: CreateWishlistCommand | undefined): Observable<string> {
+    create6(apiVersion: string, body: CreateWishlistCommand | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/v{apiVersion}/Wishlist/Create";
         if (apiVersion === undefined || apiVersion === null)
             throw new Error("The parameter 'apiVersion' must be defined.");
@@ -1797,11 +1854,11 @@ export class Client extends ClientBase {
         return _observableFrom(this.transformOptions(options_)).pipe(_observableMergeMap(transformedOptions_ => {
             return this.http.request("post", url_, transformedOptions_);
         })).pipe(_observableMergeMap((response_: any) => {
-            return this.processCreate7(response_);
+            return this.processCreate6(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate7(response_ as any);
+                    return this.processCreate6(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<string>;
                 }
@@ -1810,7 +1867,7 @@ export class Client extends ClientBase {
         }));
     }
 
-    protected processCreate7(response: HttpResponseBase): Observable<string> {
+    protected processCreate6(response: HttpResponseBase): Observable<string> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1858,6 +1915,7 @@ export interface BasketItemDtoCollection {
 export interface CategoryBriefDto {
     id?: string;
     name?: string | undefined;
+    photo?: Photo;
     children?: CategoryBriefDto[] | undefined;
 }
 
@@ -1869,6 +1927,8 @@ export interface CategoryBriefDtoCollection {
 export interface CategoryDto {
     id?: string;
     name?: string | undefined;
+    photo?: Photo;
+    characteristics?: CharacteristicDto[] | undefined;
     children?: CategoryBriefDto[] | undefined;
 }
 
@@ -1889,18 +1949,20 @@ export interface CharacteristicBriefDtoPaginatedList {
 export interface CharacteristicDto {
     id?: string;
     name?: string | undefined;
+}
+
+export interface CharacteristicValueDto {
+    id?: string;
+    name?: string | undefined;
     value?: string | undefined;
 }
 
 export interface ClearBasketCommand {
 }
 
-export interface CreateBasketCommand {
-}
-
 export interface CreateCategoryCommand {
     name?: string | undefined;
-    parentId?: string;
+    parentId?: string | undefined;
     characteristics?: CreateCharacteristicCommand[] | undefined;
 }
 
@@ -1920,7 +1982,7 @@ export interface CreatePlantCommand {
     name?: string | undefined;
     price?: number;
     description?: string | undefined;
-    characteristics?: CharacteristicDto[] | undefined;
+    characteristics?: CharacteristicValueDto[] | undefined;
     categoryId?: string;
 }
 
@@ -1962,6 +2024,9 @@ export interface GetBasketQuery {
 export interface GetCategoriesQuery {
 }
 
+export interface GetWishlistCountQuery {
+}
+
 export interface GetWishlistQuery {
 }
 
@@ -1998,10 +2063,15 @@ export interface OrderItemDto {
     plant?: PlantBriefDto;
 }
 
+export interface Photo {
+    link?: string | undefined;
+}
+
 export interface PlantBriefDto {
     id?: string;
     name?: string | undefined;
     price?: number;
+    photo?: Photo;
     deliveryDate?: Date;
     rate?: number;
 }
@@ -2022,11 +2092,16 @@ export interface PlantDto {
     description?: string | undefined;
     rate?: number;
     category?: CategoryDto;
-    characteristicValues?: CharacteristicDto[] | undefined;
+    photo?: Photo;
+    characteristicValues?: CharacteristicValueDto[] | undefined;
     reviews?: ReviewDto[] | undefined;
 }
 
 export interface RemoveFromBasketCommand {
+    plantId?: string;
+}
+
+export interface RemoveFromWishlistCommand {
     plantId?: string;
 }
 
@@ -2043,6 +2118,7 @@ export interface SearchPlantBriefDto {
     id?: string;
     plantName?: string | undefined;
     categoryName?: string | undefined;
+    photo?: Photo;
 }
 
 export interface SearchPlantBriefDtoCollection {
@@ -2057,7 +2133,7 @@ export interface UpdateBasketCommand {
 export interface UpdateCategoryCommand {
     id?: string;
     name?: string | undefined;
-    parentId?: string;
+    parentId?: string | undefined;
 }
 
 export interface UpdateCharacteristicCommand {
@@ -2070,8 +2146,12 @@ export interface UpdatePlantCommand {
     name?: string | undefined;
     price?: number;
     description?: string | undefined;
-    characteristics?: CharacteristicDto[] | undefined;
+    characteristics?: CharacteristicValueDto[] | undefined;
     categoryIds?: string[] | undefined;
+}
+
+export interface WishlistCount {
+    count?: number;
 }
 
 export interface WishlistDto {

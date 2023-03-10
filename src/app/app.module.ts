@@ -24,7 +24,7 @@ import {API_BASE_URL} from "./api/api";
       config: {
         authority: environment.authority,
         redirectUrl: environment.redirectUrl,
-        postLogoutRedirectUri: environment.postLogoutRedirectUri,
+        postLogoutRedirectUri: environment.redirectUrl,
         clientId: 'flora-web-app',
         scope: 'openid profile FloraWebApi offline_access',
         responseType: 'code',

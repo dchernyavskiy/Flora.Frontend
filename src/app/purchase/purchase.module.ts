@@ -11,17 +11,20 @@ import { BasketItemComponent } from './basket/basket-item/basket-item.component'
 
 
 @NgModule({
-  declarations: [
-    BasketComponent,
-    CheckoutComponent,
-    BasketItemComponent
-  ],
-  imports: [
-    CommonModule,
-    PurchaseRoutingModule,
-    FormsModule,
-    FontAwesomeModule,
-    CommonsModule
-  ]
+    declarations: [
+        BasketComponent,
+        CheckoutComponent,
+        BasketItemComponent
+    ],
+    exports: [
+        BasketItemComponent
+    ],
+    imports: [
+        CommonModule,
+        PurchaseRoutingModule,
+        FormsModule,
+        FontAwesomeModule,
+        CommonsModule
+    ]
 })
 export class PurchaseModule { }

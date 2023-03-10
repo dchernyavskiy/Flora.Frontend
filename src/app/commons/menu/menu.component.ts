@@ -1,5 +1,4 @@
-import {AfterContentInit, Component, ContentChild, ContentChildren, QueryList} from '@angular/core';
-import {TabItemComponent} from "../tab/tab-item/tab-item.component";
+import {AfterContentInit, Component, ContentChildren, QueryList} from '@angular/core';
 import {MenuItemComponent} from "./menu-item/menu-item.component";
 
 @Component({
@@ -8,11 +7,10 @@ import {MenuItemComponent} from "./menu-item/menu-item.component";
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements AfterContentInit {
-  // @ts-ignore
-  @ContentChildren(MenuItemComponent) items: QueryList<MenuItemComponent>;
+  @ContentChildren(MenuItemComponent) items: QueryList<MenuItemComponent> = new QueryList<MenuItemComponent>();
 
   ngAfterContentInit(): void {
-    let activeItems = this.items.filter((item) => item.active);
+    const activeItems = this.items.filter((item) => item.active);
     if (activeItems.length === 0) {
       this.selectItem(this.items.first);
     }

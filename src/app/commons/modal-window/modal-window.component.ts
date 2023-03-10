@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {faX} from "@fortawesome/free-solid-svg-icons";
 import {BehaviorSubject} from "rxjs";
 
@@ -8,7 +8,7 @@ import {BehaviorSubject} from "rxjs";
   styleUrls: ['./modal-window.component.scss']
 })
 export class ModalWindowComponent {
-  @Input() public title: string = '';
+  @Input() public title = '';
   @Input() public hidden$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   faX = faX;
 }

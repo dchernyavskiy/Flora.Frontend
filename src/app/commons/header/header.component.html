@@ -10,8 +10,8 @@
         <input type="text"
                name="search"
                [(ngModel)]="search"
-               (input)="onInput($event)"
-               (focus)="onSearchFocus($event)"
+               (input)="onInput()"
+               (focus)="onSearchFocus()"
                class="w-full border border-slate-300 px-5 py-2.5 outline-0"
                placeholder="e.g. Something"/>
         <a class="btn-gradient-orange">Search</a>
@@ -22,19 +22,19 @@
         <ng-container *ngIf="foundItems">
           <a class="flex flex-row space-x-2 p-2"
              *ngFor="let item of foundItems"
-             (click)="onPlanClicked($event)"
+             (click)="onPlanClicked()"
              [routerLink]="['/plants', item.categoryName, item.id]">
             <img class="max-h-[32px]" src="https://picsum.photos/300/300"/>
             <span class="my-auto font-medium">{{item.plantName}}</span>
           </a>
         </ng-container>
-        <ng-container *ngIf="foundItems.length == 0">
+        <ng-container *ngIf="foundItems.length === 0">
           <h2 class="text-center font-bold">There are no results!</h2>
         </ng-container>
       </div>
       <div
         class="fixed hidden  z-20 w-full h-full bg-black left-0 right-0 bottom-0 top-0 opacity-70 "
-        (click)="onSearchMouseLeave($event)"
+        (click)="onSearchMouseLeave()"
         [ngClass]="{'block':areResultsVisible}"></div>
     </div>
 
@@ -48,9 +48,9 @@
       <a [routerLink]="['/cabinet', 'wishlist']"
          class="relative m-auto flex flex-row font-medium text-green-900 group">
         <fa-icon [icon]="faHeart" [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
-        <div
+        <div *ngIf="wishlistCount"
           class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
-          <div class="m-auto text-white font-bold text-center">3</div>
+          <div class="m-auto text-white font-bold text-center">{{wishlistCount!}}</div>
         </div>
       </a>
 
@@ -84,7 +84,7 @@
              [queryParams]="{categoryId: category.id}"
              class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3 hover:shadow-2xl transition duration-500"
              *ngFor="let category of subcategories">
-            <img class="max-h-[50px] max-w-[50px]" src="https://picsum.photos/300/300"/>
+            <img class="max-w-[50px] max-h-[50px]" [src]="category.photo?.link!"/>
             <span class="my-auto font-semibold">{{category.name}}</span>
           </a>
         </div>

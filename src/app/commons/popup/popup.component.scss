@@ -1,0 +1,12 @@
+.popup{
+  animation: slide-in 2s forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 10px;
+  }
+}

@@ -1,0 +1,94 @@
+<header class="w-full">
+  <div class="container mx-auto flex flex-row justify-between py-3">
+    <a [routerLink]="['/']" class="flex">
+      <img src="./../../../assets/img/logo/logo.png"
+           class="h-12 max-w-full"/>
+    </a>
+
+    <div class="relative flex w-1/3 flex-row group">
+      <div class="flex flex-row w-full z-30">
+        <input type="text"
+               name="search"
+               [(ngModel)]="search"
+               (input)="onInput()"
+               (focus)="onSearchFocus()"
+               class="w-full border border-slate-300 px-5 py-2.5 outline-0"
+               placeholder="e.g. Something"/>
+        <a class="btn-gradient-orange">Search</a>
+      </div>
+      <div
+        class="absolute scrollbar overflow-y-scroll min-h-fit max-h-[32rem] hidden z-50 left-0 right-0 top-full border bg-white p-1 transition duration-500"
+        [ngClass]="{'block':areResultsVisible}">
+        <ng-container *ngIf="foundItems">
+          <a class="flex flex-row space-x-2 p-2"
+             *ngFor="let item of foundItems"
+             (click)="onPlanClicked()"
+             [routerLink]="['/plants', item.categoryName, item.id]">
+            <img class="max-h-[32px]" src="https://picsum.photos/300/300"/>
+            <span class="my-auto font-medium">{{item.plantName}}</span>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="foundItems.length === 0">
+          <h2 class="text-center font-bold">There are no results!</h2>
+        </ng-container>
+      </div>
+      <div
+        class="fixed hidden  z-20 w-full h-full bg-black left-0 right-0 bottom-0 top-0 opacity-70 "
+        (click)="onSearchMouseLeave()"
+        [ngClass]="{'block':areResultsVisible}"></div>
+    </div>
+
+    <div class="flex space-x-5">
+      <a [routerLink]="['/cabinet']"
+         class="m-auto flex flex-row font-medium text-green-900">
+        <fa-icon [icon]="faUser"></fa-icon>
+        <span class="ml-1">Cabinet</span>
+      </a>
+
+      <a [routerLink]="['/cabinet', 'wishlist']"
+         class="relative m-auto flex flex-row font-medium text-green-900 group">
+        <fa-icon [icon]="faHeart" [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+        <div *ngIf="wishlistCount"
+          class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
+          <div class="m-auto text-white font-bold text-center">{{wishlistCount!}}</div>
+        </div>
+      </a>
+
+      <a [routerLink]="['/basket']"
+         class="relative m-auto flex flex-row font-medium text-green-900 group">
+        <fa-icon [icon]="faBasketShopping"
+                 [classes]="['group-hover:text-orange-500', 'duration-200', 'transition']"></fa-icon>
+        <div *ngIf="basketCount"
+             class="absolute w-[20px] h-[20px] rounded-full text-[14px] bg-orange-500 group-hover:bg-green-900 duration-200 transition top-0 -right-3.5 -top-2">
+          <div class="m-auto text-white font-bold text-center">{{basketCount!}}</div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="group container mx-auto">
+    <nav class="block relative z-10">
+      <ul class="flex">
+        <li
+          *ngFor="let category of categories"
+          (mouseenter)="setSubCategories(category)"
+          [routerLinkActive]="['bg-[#EA6E27]']"
+          class="w-full py-2 text-center font-bold text-white transition duration-300 bg-[rgba(38,137,104,1)] hover:bg-[#EA6E27]">
+          <a [routerLink]="['/plants', category.name]"
+             class="block"
+             [queryParams]="{categoryId:category.id}">{{category.name}}</a>
+        </li>
+      </ul>
+      <div class="container absolute inset-x-0 hidden bg-white p-1 group-hover:block z-50">
+        <div class="grid grid-cols-10 gap-1">
+          <a [routerLink]="['/plants',  category.name]"
+             [queryParams]="{categoryId: category.id}"
+             class="col-span-2 flex flex-row justify-start space-x-2 border bg-white p-3 hover:shadow-2xl transition duration-500"
+             *ngFor="let category of subcategories">
+            <img class="max-w-[50px] max-h-[50px]" [src]="category.photo?.link!"/>
+            <span class="my-auto font-semibold">{{category.name}}</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,106 @@
+<div class="container mx-auto py-5">
+  <app-menu class="container mx-auto py-5">
+    <app-menu-item [icon]="faUser"
+                   [link]="['/cabinet', 'personal-data']"
+                   [innerHtml]="'<span>Name Name</span><span class=&quot;text-sm text-gray-500&quot;>email@email.com</span>'">
+      <div class="flex flex-col space-y-5">
+        <h1 class="text-3xl font-bold">Personal Data</h1>
+        <form class="flex flex-col space-y-2">
+          <div class="grid grid-cols-12 gap-6">
+            <div class="flex col-span-4 flex-col space-y-1">
+              <label for="firstName" class="text-">First Name</label>
+              <input [(ngModel)]="user.firstName"
+                     #firstName="ngModel"
+                     required
+                     id="firstName"
+                     name="firstName"
+                     type="text"
+                     [ngClass]="{'border-rose-500': firstName.errors}"
+                     class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+              <span *ngIf="firstName.errors"
+                    class="text-sm text-rose-500"
+              >First Name is required!</span>
+            </div>
+            <div class="flex col-span-4 flex-col space-y-1">
+              <label for="lastName" class="text-">Last Name</label>
+              <input [(ngModel)]="user.lastName"
+                     #lastName="ngModel"
+                     required
+                     id="lastName"
+                     name="lastName"
+                     [ngClass]="{'border-rose-500': lastName.errors}"
+                     type="text"
+                     class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+              <span *ngIf="lastName.errors"
+                    class="text-sm text-rose-500"
+              >Last Name is required!</span>
+            </div>
+            <div class="flex col-span-4 col-start-1 flex-col space-y-1">
+              <label for="phone" class="text-">Phone</label>
+              <input id="phone"
+                     name="phone"
+                     type="tel"
+                     class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+            </div>
+            <div class="flex col-span-6 flex-col space-y-1">
+              <label for="email" class="text-">Email</label>
+              <input [(ngModel)]="user.email"
+                     #email="ngModel"
+                     required
+                     email="true"
+                     id="email"
+                     name="email"
+                     [ngClass]="{'border-rose-500': email.errors && (email.invalid || email.touched)}"
+                     type="email"
+                     class="w-full border border-slate-300 px-5 py-2.5 outline-0">
+              <span *ngIf="email.errors && (email.invalid || email.touched)"
+                    class="text-sm text-rose-500">Email is required!</span>
+            </div>
+            <button type="button"
+                    (click)="save()"
+                    class="btn-gradient-orange col-start-1 col-end-5">
+              Save
+            </button>
+          </div>
+        </form>
+        <div class="grid grid-cols-12 gap-6">
+          <button class="btn-gradient-green col-span-2">Change Password</button>
+          <button class="btn-gradient-green col-span-2" (click)="logoff()">Sign Out</button>
+          <button class="btn-gradient-danger col-span-2 col-end-12">Delete Account</button>
+        </div>
+      </div>
+    </app-menu-item>
+    <app-menu-item [icon]="faHeart"
+                   class="my-auto mx-auto"
+                   [link]="['/cabinet', 'wishlist']"
+                   [active]="tabs.wishlist"
+                   [innerHtml]="'<span>Wishlist</span>'">
+      <ng-container *ngIf="wishlist.length > 0">
+        <div class="grid grid-cols-12 gap-6">
+          <ng-container *ngFor="let item of wishlist">
+            <app-wishlist-item (delete)="getWishList()" [item]="item" class="col-span-3"></app-wishlist-item>
+          </ng-container>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="wishlist.length === 0">
+        <div class="flex flex-col justify-center text-center space-y-5">
+          <h2 class="text-2xl font-bold">
+            Your wishlist is empty!
+          </h2>
+          <a [routerLink]="['/home']"
+             class="btn-gradient-green w-fit self-center">
+            Go to Home
+          </a>
+        </div>
+      </ng-container>
+
+    </app-menu-item>
+    <app-menu-item [icon]="faTableList"
+                   [link]="['/cabinet', 'orders']"
+                   [active]="tabs.orders"
+                   [innerHtml]="'<span>Orders</span>'">
+      Orders content
+    </app-menu-item>
+  </app-menu>
+</div>
+

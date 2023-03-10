@@ -1,0 +1,49 @@
+<div class="flex flex-row space-x-2">
+  <div class="relative h-20 w-20">
+    <img class="object-scale-down" src="https://picsum.photos/300/300" />
+    <div class="absolute hidden px-2 py-1 bg-rose-500 rounded-full text-white font-bold text-[8px] -top-3 -left-3">
+      -15%
+    </div>
+  </div>
+  <div class="flex w-full flex-col space-y-9">
+    <div class="flex flex-row justify-between">
+      <h2 class="font-medium text-lg">{{item.plant?.name!}}</h2>
+      <div class="group relative h-1.5 w-1.5">
+        <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+        <div
+          class="absolute top-0 right-0 hidden w-fit flex-col space-y-2 whitespace-nowrap border bg-white fill-green-900 py-2 px-4 text-green-900 group-hover:flex">
+          <div
+            (click)="remove(item.plant?.id!)"
+            class="flex flex-row justify-start space-x-2 transition duration-500 hover:fill-orange-500 hover:text-orange-500">
+            <fa-icon [icon]="faTrash"></fa-icon>
+            <h3 class="font-medium">Delete</h3>
+          </div>
+          <div (click)="toWishlist(item.plant?.id!)"
+            class="flex w-full justify-start space-x-2 transition duration-500 hover:fill-orange-500 hover:text-orange-500">
+            <fa-icon [icon]="faHeart"></fa-icon>
+            <h3 class="font-medium">To Wishlist</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row justify-end space-x-4">
+      <div class="my-auto p-3 font-bold">
+        <button type="button"
+                (click)="changeQuantity(-1)"
+                [disabled]="item.quantity === 1"
+                class="m-auto fill-black">
+          <fa-icon [icon]="faMinus"></fa-icon>
+        </button>
+        <input class="mx-2 w-10 appearance-none border bg-white py-2 text-center" type="text" disabled
+               name="quantity" value="1" [(ngModel)]="item.quantity"/>
+        <button type="button" (click)="changeQuantity(1)" class="m-auto fill-black">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-end hidden font-semibold text-gray-400 line-through">$123</span>
+        <span class="m-auto text-end text-lg font-semibold text-red-500">{{item.plant?.price! * item.quantity! | currency}}</span>
+      </div>
+    </div>
+  </div>
+</div>

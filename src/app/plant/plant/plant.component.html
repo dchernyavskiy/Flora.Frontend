@@ -1,0 +1,190 @@
+<div class="container mx-auto py-10 flex flex-col space-y-24">
+
+  <div class="container grid grid-cols-12 gap-6">
+    <div class="col-span-6">
+      <div class="flex flex-row space-x-5 justify-center">
+        <div class="flex flex-col space-y-5">
+          <img class="ml-auto mr-auto max-w-full max-h-full" src="https://picsum.photos/400/300"/>
+          <div class="flex hidden flex-row space-x-2 overflow-hidden">
+            <img class="max-w-[100px]" src="https://picsum.photos/400/300"/>
+            <img class="max-w-[100px]" src="https://picsum.photos/400/300"/>
+            <img class="max-w-[100px]" src="https://picsum.photos/400/300"/>
+            <img class="max-w-[100px]" src="https://picsum.photos/400/300"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-span-6 flex flex-col space-y-3.5">
+      <div class="flex space-x-3">
+        <app-rating [rate]="plant.rate!"></app-rating>
+        <span class="font-medium text-gray-400">Reviews({{reviewCount}})</span>
+      </div>
+      <h2 class="text-3xl font-bold">{{plant.name}}</h2>
+      <span class="text-2xl font-medium text-green-900">{{plant.price | currency}}
+        <!--        <span class="ml-1 text-sm text-gray-400 line-through">350$</span>-->
+      </span>
+      <div class="flex flex-row space-x-2">
+        <span class="font-bold">Availability:</span>
+        <span class="font-bold text-green-900">In Stock</span>
+      </div>
+      <form class="flex flex-col space-y-5">
+        <div class="flex flex-row space-x-2">
+          <span class="my-auto font-medium">Quantity:</span>
+          <div class="p-3 font-bold">
+            <button type="button"
+                    (click)="addToBasketCommand.quantity = addToBasketCommand.quantity! - 1"
+                    [disabled]="addToBasketCommand.quantity === 1"
+                    class="fill-black m-auto">
+              <fa-icon [icon]="faMinus"></fa-icon>
+            </button>
+            <input class="w-10 py-2 mx-2 border appearance-none text-center bg-white"
+                   type="text"
+                   disabled
+                   name="quantity"
+                   [(ngModel)]="addToBasketCommand.quantity"/>
+            <button type="button"
+                    (click)="addToBasketCommand.quantity = addToBasketCommand.quantity! + 1"
+                    class="fill-black m-auto">
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <button (click)="addToBasket()"
+                class="btn-gradient-orange w-fit">
+          Add to cart
+        </button>
+      </form>
+      <div class="flex flex-row space-x-2" *ngIf="plant.category">
+        <span class="my-auto font-medium">Categories:</span>
+        <a
+          class="border py-1 px-2 text-sm text-gray-500 bg-white hover:bg-green-900 hover:text-white trasition duration-500">
+          {{plant.category.name}}
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <app-tab>
+    <app-tab-item title="Details">
+      <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-2 flex flex-row justify-between border-b p-1"
+             *ngFor="let characteristic of plant.characteristicValues">
+          <span class="my-auto font-medium">{{characteristic.name!}}</span>
+          <span class="my-auto font-medium text-green-900">{{characteristic.value!}}</span>
+        </div>
+
+      </div>
+    </app-tab-item>
+    <app-tab-item title="Description">
+      <div class="flex flex-col space-y-6">
+        <h2 class="text-3xl font-bold text-slate-800">Description</h2>
+        <p>{{plant.description}}</p>
+      </div>
+    </app-tab-item>
+    <app-tab-item title="Reviews({{reviewCount}})">
+      <div class="flex flex-col space-y-6">
+        <div class="flex flex-row justify-between">
+          <h2 class="text-3xl font-bold text-slate-800">Reviews</h2>
+          <button class="btn-gradient-green" (click)="reply()">Leave a review</button>
+        </div>
+        <ng-container *ngFor="let review of plant.reviews"
+                      [ngTemplateOutlet]="rec"
+                      [ngTemplateOutletContext]="{$implicit: review, level:0, rateVisibility:true}"
+        >
+        </ng-container>
+        <ng-container *ngIf="!plant.reviews || plant.reviews.length === 0">
+          <div class="flex flex-col justify-center space-y-4">
+            <h2 class="text-center text-2xl ">
+              There is no reviews. You can be the first to leave one!
+            </h2>
+            <div class="self-center">
+              <button (click)="reply()"
+                      class="border bg-white px-4 py-2 text-green-900 transition duration-500 hover:border-green-900">
+                Leave comment
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </app-tab-item>
+  </app-tab>
+</div>
+
+
+<ng-template #rec let-review let-level="level" let-rateVisibility="rateVisibility">
+  <div #review class="flex flex-row space-x-5 lv-{{level}}">
+    <img src="https://picsum.photos/300/300" class="max-w-16 max-h-16 rounded-full"/>
+    <div class="flex flex-col justify-start space-y-3">
+      <div class="flex flex-row space-x-2">
+        <h5 class="text-xl font-medium">{{review.fullName}}</h5>
+        <span class="my-auto font-normal text-gray-500">{{review.postDate | date}}</span>
+      </div>
+      <app-rating *ngIf="rateVisibility" [rate]="review.rate"></app-rating>
+      <p>{{review.comment}}</p>
+      <div>
+        <button (click)="reply(review.id)"
+                class="border bg-white px-4 py-2 text-green-900 transition duration-500 hover:border-green-900">
+          Reply
+        </button>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="review.children">
+    <ng-container *ngFor="let child of review.children"
+                  [ngTemplateOutlet]="rec"
+                  [ngTemplateOutletContext]="{$implicit: child, level:level+1, rateVisibility: false}">
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<app-modal-window [title]="'Write Your Comment'"
+                  [hidden$]="modalHidden$">
+  <div class="flex flex-row justify-center space-x-10">
+    <ng-container *ngIf="isStarHidden">
+      <ng-container *ngFor="let star of stars | async">
+        <fa-icon [icon]="faStar"
+                 size="2x"
+                 (click)="rate.next(star.index)"
+                 [ngClass]="{'text-yellow-500':star.isYellow, 'text-gray-500': !star.isYellow}"></fa-icon>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <label class="font-medium text-xl">Comment</label>
+    <textarea rows="5"
+              required minlength="1" maxlength="300"
+              #comment="ngModel"
+              [(ngModel)]="review.comment"
+              [ngClass]="{'ring-rose-500':comment.errors , 'ring-1':comment.errors}"
+              class="border p-2 outline-none transition duration-500 focus:ring-1 focus:ring-green-900"></textarea>
+    <span *ngIf="comment.errors" class="text-rose-500">Comment is required!</span>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <label class="font-medium text-base">Your Full Name</label>
+    <input #fullname="ngModel"
+           [(ngModel)]="review.fullName"
+           required
+           type="text"
+           [ngClass]="{'ring-rose-500':fullname.errors , 'ring-1':fullname.errors}"
+           class="border p-2 outline-none transition duration-500 focus:ring-1 focus:ring-green-900">
+    <span *ngIf="fullname.errors" class="text-rose-500">Full Name is required!</span>
+  </div>
+  <div class="flex flex-col space-y-1">
+    <label class="font-medium text-base">Email</label>
+    <input type="email"
+           #email="ngModel"
+           required email
+           [(ngModel)]="review.email"
+           [ngClass]="{'ring-rose-500':email.errors , 'ring-1':email.errors}"
+           class="border p-2 outline-none transition duration-500 focus:ring-1 focus:ring-green-900">
+    <span *ngIf="email.errors " class="text-rose-500">Email is required!</span>
+  </div>
+  <div class="flex flex-row space-x-2">
+    <button class="btn-gradient-danger w-full" (click)="isModalHidden=true">Cancel</button>
+    <button (click)="send()"
+            [disabled]="comment.errors || fullname.errors || email.errors"
+            class="btn-gradient-green w-full disabled:opacity-50">Send
+    </button>
+  </div>
+</app-modal-window>
